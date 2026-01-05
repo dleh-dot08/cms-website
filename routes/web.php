@@ -8,6 +8,9 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\OfficerController;
 use App\Http\Controllers\Admin\InternController;
 use App\Http\Controllers\Admin\MentorController;
+use App\Http\Controllers\Admin\BlogController;
+use App\Http\Controllers\Admin\NewsController;
+use App\Http\Controllers\Admin\CategoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -75,6 +78,22 @@ Route::middleware(['auth'])->group(function () {
             Route::resource('users', UserController::class)->except(['show']);
         });
 });
+
+// role content: superadmin/admin/marketing (sesuaikan middleware role kamu)
+Route::middleware(['auth','role:superadmin,admin,marketing'])
+    ->prefix('admin')
+    ->name('admin.')
+    ->group(function () {
+
+        Route::resource('blogs', BlogController::class)
+            ->parameters(['blogs' => 'post']);
+
+        Route::resource('news', NewsController::class)
+            ->parameters(['news' => 'post']);
+        
+        Route::resource('categories', CategoryController::class)
+            ->parameters(['categories' => 'category']);
+    });
 
 
 require __DIR__.'/auth.php';
