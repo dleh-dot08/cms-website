@@ -85,4 +85,9 @@ class User extends Authenticatable
     {
         return $this->role === self::ROLE_MARKETING;
     }
+
+    public function recruitmentJobs()
+    {
+        return $this->hasMany(\App\Models\RecruitmentJob::class, 'user_id');
+    }
 }

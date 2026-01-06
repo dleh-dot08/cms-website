@@ -11,6 +11,17 @@ use App\Http\Controllers\Admin\MentorController;
 use App\Http\Controllers\Admin\BlogController;
 use App\Http\Controllers\Admin\NewsController;
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\CourseController;
+use App\Http\Controllers\Admin\CourseMeetingController;
+use App\Http\Controllers\Admin\ProgramCategoryController;
+use App\Http\Controllers\Admin\JenjangController;
+use App\Http\Controllers\Admin\SubProgramController;
+use App\Http\Controllers\Admin\RecruitmentJobController;
+use App\Http\Controllers\Admin\TagController;
+use App\Http\Controllers\Admin\DivisionController;
+use App\Http\Controllers\Admin\WorkTypeController;
+use App\Http\Controllers\Admin\LocationController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -93,6 +104,71 @@ Route::middleware(['auth','role:superadmin,admin,marketing'])
         
         Route::resource('categories', CategoryController::class)
             ->parameters(['categories' => 'category']);
+    });
+
+Route::middleware(['auth','role:superadmin,admin,marketing'])
+    ->prefix('admin')
+    ->name('admin.')
+    ->group(function () {
+
+        Route::resource('blogs', BlogController::class)->parameters(['blogs' => 'post']);
+        Route::resource('news', NewsController::class)->parameters(['news' => 'post']);
+        Route::resource('categories', CategoryController::class)->parameters(['categories' => 'category']);
+
+        // ✅ MASTER KURSUS (semua di dalam group admin)
+        Route::resource('program-categories', ProgramCategoryController::class)
+            ->parameters(['program-categories' => 'programCategory'])
+            ->names('program_categories');
+
+        Route::resource('jenjangs', JenjangController::class)
+            ->parameters(['jenjangs' => 'jenjang'])
+            ->names('jenjangs');
+
+        Route::resource('sub-programs', SubProgramController::class)
+            ->parameters(['sub-programs' => 'subProgram'])
+            ->names('sub_programs');
+
+        Route::resource('courses', CourseController::class)
+            ->parameters(['courses' => 'course'])
+            ->names('courses');
+
+        // meetings (juga masuk group admin biar URL-nya /admin/...)
+        Route::get('courses/{course}/meetings/create', [CourseMeetingController::class, 'create'])
+            ->name('course_meetings.create');
+
+        Route::post('courses/{course}/meetings', [CourseMeetingController::class, 'store'])
+            ->name('course_meetings.store');
+
+        Route::get('courses/{course}/meetings/{meeting}/edit', [CourseMeetingController::class, 'edit'])
+            ->name('course_meetings.edit');
+
+        Route::put('courses/{course}/meetings/{meeting}', [CourseMeetingController::class, 'update'])
+            ->name('course_meetings.update');
+
+        Route::delete('courses/{course}/meetings/{meeting}', [CourseMeetingController::class, 'destroy'])
+            ->name('course_meetings.destroy');
+        
+        // MASTER recruitment
+        Route::resource('divisions', DivisionController::class)
+            ->parameters(['divisions' => 'division'])
+            ->names('divisions');
+
+        Route::resource('work-types', WorkTypeController::class)
+            ->parameters(['work-types' => 'workType'])
+            ->names('work_types');
+
+        Route::resource('locations', LocationController::class)
+            ->parameters(['locations' => 'location'])
+            ->names('locations');
+
+        Route::resource('tags', TagController::class)
+            ->parameters(['tags' => 'tag'])
+            ->names('tags');
+
+        // LOWONGAN
+        Route::resource('recruitment-jobs', RecruitmentJobController::class)
+            ->parameters(['recruitment-jobs' => 'job'])
+            ->names('recruitment_jobs');
     });
 
 
