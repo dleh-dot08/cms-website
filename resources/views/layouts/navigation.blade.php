@@ -46,7 +46,11 @@
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
                     <a href="{{ route('dashboard') }}">
-                        <x-application-logo class="block h-9 w-auto fill-current text-gray-900" />
+                        <img 
+                            src="{{ asset('img/logo/ASN_logo-color.png') }}" 
+                            alt="Logo ASN"
+                            class="h-9 w-auto"
+                        >
                     </a>
                 </div>
 
