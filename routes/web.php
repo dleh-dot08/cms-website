@@ -21,6 +21,7 @@ use App\Http\Controllers\Admin\TagController;
 use App\Http\Controllers\Admin\DivisionController;
 use App\Http\Controllers\Admin\WorkTypeController;
 use App\Http\Controllers\Admin\LocationController;
+use App\Http\Controllers\Public\AboutController;
 
 
 /*
@@ -37,6 +38,7 @@ use App\Http\Controllers\Admin\LocationController;
 Route::get('/', function () {
     return view('welcome');
 });
+Route::get('/tentang-kami', [AboutController::class, 'index'])->name('about');
 
 Route::get('/dashboard', function () {
     return view('dashboard');

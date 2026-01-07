@@ -24,7 +24,7 @@
                 {{-- Desktop menu --}}
                 <div class="hidden md:flex items-center gap-8">
                     <a href="{{ url('/') }}" class="text-gray-700 hover:text-gray-900 font-semibold">Beranda</a>
-                    <a href="{{ url('/tentang-kami') }}" class="text-gray-700 hover:text-gray-900 font-semibold">Tentang Kami</a>
+                    <a href="{{ route('about') }}" class="text-gray-700 hover:text-gray-900 font-semibold">Tentang Kami</a>
 
                     {{-- Program dropdown desktop (hover) --}}
                     <div class="relative group">
