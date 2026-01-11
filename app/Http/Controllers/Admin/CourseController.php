@@ -42,28 +42,28 @@ class CourseController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-            'program_category_id' => ['required','integer'],
-            'jenjang_id' => ['required','integer'],
-            'sub_program_id' => ['required','integer'],
+            'program_category_id' => ['required','integer','exists:program_categories,id'],
+            'jenjang_id'          => ['required','integer','exists:jenjangs,id'],
+            'sub_program_id'      => ['required','integer','exists:sub_programs,id'],
 
-            'nama_kursus' => ['required','string','max:255'],
-            'periode_waktu' => ['nullable','string','max:255'],
-            'level' => ['nullable','string','max:100'],
-            'total_pertemuan' => ['required','integer','min:1'],
-            'durasi_menit' => ['nullable','integer','min:1'],
-            'pelaksanaan' => ['nullable','string','max:100'],
+            'nama_kursus'       => ['required','string','max:255'],
+            'foto_kursus'       => ['nullable','image','mimes:jpg,jpeg,png,webp','max:2048'],
+            'periode_waktu'     => ['nullable','string','max:255'],
+            'level'             => ['nullable','string','max:100'],
+            'total_pertemuan'   => ['required','integer','min:1'], // ✅ WAJIB
+            'durasi_menit'      => ['nullable','integer','min:0'], // ✅ 0 boleh (sesuai form)
+            'pelaksanaan'       => ['nullable','string','max:100'],
             'mendapatkan_sertifikat' => ['nullable','boolean'],
             'deskripsi_program' => ['nullable','string'],
-            'is_active' => ['nullable','boolean'],
-            'sort_order' => ['nullable','integer','min:0'],
-
-            // ✅ foto
-            'foto_kursus' => ['nullable','image','mimes:jpg,jpeg,png,webp','max:2048'],
+            'is_active'         => ['nullable','boolean'],
+            'sort_order'        => ['nullable','integer','min:0'],
         ]);
 
-        $data['mendapatkan_sertifikat'] = (bool) ($request->boolean('mendapatkan_sertifikat'));
-        $data['is_active'] = (bool) ($request->boolean('is_active'));
+        // boolean normalize
+        $data['mendapatkan_sertifikat'] = (bool) $request->boolean('mendapatkan_sertifikat');
+        $data['is_active']             = (bool) $request->boolean('is_active');
 
+        // upload foto
         if ($request->hasFile('foto_kursus')) {
             $data['foto_kursus_path'] = $request->file('foto_kursus')->store('courses', 'public');
         }
@@ -72,8 +72,12 @@ class CourseController extends Controller
 
         $course = Course::create($data);
 
-        return redirect()->route('admin.courses.show', $course)->with('success', 'Kursus berhasil ditambahkan.');
+        return redirect()
+            ->route('admin.courses.show', $course)
+            ->with('success', 'Kursus berhasil ditambahkan.');
     }
+
+
 
     public function show(Course $course)
     {

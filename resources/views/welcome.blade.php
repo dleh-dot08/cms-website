@@ -13,108 +13,7 @@
 
 <body class="bg-gray-50 text-gray-900">
     {{-- NAVBAR --}}
-    <nav x-data="{ open:false, programOpen:false, karirOpen:false }"
-         class="bg-white/95 backdrop-blur border-b border-gray-200 sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="h-16 flex items-center justify-between">
-                <a href="{{ url('/') }}" class="flex items-center gap-3">
-                    <img src="{{ asset('img/logo/logo_AA.webp') }}" alt="Logo Anagata Academy" class="h-9 w-auto">
-                </a>
-
-                {{-- Desktop menu --}}
-                <div class="hidden md:flex items-center gap-8">
-                    <a href="{{ url('/') }}" class="text-gray-700 hover:text-gray-900 font-semibold">Beranda</a>
-                    <a href="{{ route('about') }}" class="text-gray-700 hover:text-gray-900 font-semibold">Tentang Kami</a>
-
-                    {{-- Program dropdown desktop (hover) --}}
-                    <div class="relative group">
-                        <button type="button"
-                                class="inline-flex items-center gap-1 text-gray-700 hover:text-gray-900 font-semibold">
-                            Program
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                            </svg>
-                        </button>
-
-                        <div class="hidden group-hover:block absolute left-0 top-full mt-2 w-56 bg-white border border-gray-200 rounded-xl shadow-lg overflow-hidden">
-                            <a href="{{ url('/program') }}" class="block px-4 py-3 text-gray-700 hover:bg-gray-50">Semua Program</a>
-                            <a href="{{ url('/program/digital') }}" class="block px-4 py-3 text-gray-700 hover:bg-gray-50">Program Digital</a>
-                            <a href="{{ url('/program/bahasa') }}" class="block px-4 py-3 text-gray-700 hover:bg-gray-50">Program Bahasa</a>
-                        </div>
-                    </div>
-
-                    {{-- Karir dropdown desktop (hover) --}}
-                    <div class="relative group">
-                        <button type="button"
-                                class="inline-flex items-center gap-1 text-gray-700 hover:text-gray-900 font-semibold">
-                            Karir
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                            </svg>
-                        </button>
-
-                        <div class="hidden group-hover:block absolute left-0 top-full mt-2 w-56 bg-white border border-gray-200 rounded-xl shadow-lg overflow-hidden">
-                            <a href="{{ url('/recruitment') }}" class="block px-4 py-3 text-gray-700 hover:bg-gray-50">Lowongan</a>
-                            <a href="{{ url('/recruitment?work_type=internship') }}" class="block px-4 py-3 text-gray-700 hover:bg-gray-50">Magang</a>
-                            <a href="{{ url('/recruitment?work_type=freelance') }}" class="block px-4 py-3 text-gray-700 hover:bg-gray-50">Freelance</a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="hidden sm:block">
-                    <img src="{{ asset('img/logo/logo_Codingmu.webp') }}" alt="Logo Codingmu" class="h-9 w-auto">
-                </div>
-
-                {{-- Mobile button --}}
-                <button type="button"
-                        @click="open = !open"
-                        class="md:hidden inline-flex items-center justify-center p-2 rounded-lg text-gray-700 hover:bg-gray-100">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path x-show="!open" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                              d="M4 6h16M4 12h16M4 18h16"></path>
-                        <path x-show="open" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                              d="M6 18L18 6M6 6l12 12"></path>
-                    </svg>
-                </button>
-            </div>
-
-            {{-- Mobile menu --}}
-            <div x-show="open" x-transition class="md:hidden pb-4">
-                <div class="pt-2 space-y-1">
-                    <a href="{{ url('/') }}" class="block px-3 py-2 rounded-lg text-gray-800 font-semibold hover:bg-gray-100">Beranda</a>
-                    <a href="{{ url('/tentang-kami') }}" class="block px-3 py-2 rounded-lg text-gray-800 font-semibold hover:bg-gray-100">Tentang Kami</a>
-
-                    {{-- Program accordion --}}
-                    <button type="button" @click="programOpen = !programOpen"
-                            class="w-full flex items-center justify-between px-3 py-2 rounded-lg text-gray-800 font-semibold hover:bg-gray-100">
-                        <span>Program</span>
-                        <svg class="w-4 h-4" :class="programOpen ? 'rotate-180' : ''" class="transition" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                        </svg>
-                    </button>
-                    <div x-show="programOpen" x-transition class="pl-3 space-y-1">
-                        <a href="{{ url('/program') }}" class="block px-3 py-2 rounded-lg text-gray-700 hover:bg-gray-100">Semua Program</a>
-                        <a href="{{ url('/program/digital') }}" class="block px-3 py-2 rounded-lg text-gray-700 hover:bg-gray-100">Program Digital</a>
-                        <a href="{{ url('/program/bahasa') }}" class="block px-3 py-2 rounded-lg text-gray-700 hover:bg-gray-100">Program Bahasa</a>
-                    </div>
-
-                    {{-- Karir accordion --}}
-                    <button type="button" @click="karirOpen = !karirOpen"
-                            class="w-full flex items-center justify-between px-3 py-2 rounded-lg text-gray-800 font-semibold hover:bg-gray-100">
-                        <span>Karir</span>
-                        <svg class="w-4 h-4" :class="karirOpen ? 'rotate-180' : ''" class="transition" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                        </svg>
-                    </button>
-                    <div x-show="karirOpen" x-transition class="pl-3 space-y-1">
-                        <a href="{{ url('/recruitment') }}" class="block px-3 py-2 rounded-lg text-gray-700 hover:bg-gray-100">Lowongan</a>
-                        <a href="{{ url('/recruitment?work_type=internship') }}" class="block px-3 py-2 rounded-lg text-gray-700 hover:bg-gray-100">Magang</a>
-                        <a href="{{ url('/recruitment?work_type=freelance') }}" class="block px-3 py-2 rounded-lg text-gray-700 hover:bg-gray-100">Freelance</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </nav>
+    @include('layouts.partials.public-header')
 
     {{-- HERO / CAROUSEL --}}
     <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -269,15 +168,7 @@
         </div>
     </section>
 
-    {{-- FOOTER (ringkas, kamu bisa pakai punyamu) --}}
-    <footer class="bg-slate-100 text-black py-10">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <p class="font-bold">&copy; 2024. All Rights Reserved PT. Anggota Sisaedu Nusantara</p>
-            <p class="text-sm text-gray-700 mt-2">
-                Anagata Academy and CodingMU are trademarks of PT Anagata Sisedu Nusantara.
-            </p>
-        </div>
-    </footer>
+    @include('layouts.partials.public-footer')
 
     {{-- JS (dari Vite/app.js -> import welcome.js) --}}
 </body>

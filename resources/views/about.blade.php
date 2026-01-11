@@ -14,90 +14,7 @@
 </head>
 
 <body class="bg-gray-50 text-gray-900">
-    {{-- =========================
-        NAVBAR (Public)
-    ========================== --}}
-    <nav class="bg-white border-b border-gray-200 sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="h-16 flex items-center justify-between">
-                <div class="flex items-center gap-4">
-                    <a href="{{ url('/') }}" class="flex items-center gap-3">
-                        {{-- Sesuaikan path logo kamu --}}
-                        <img src="{{ asset('img/logo/logo_AA.webp') }}" alt="Logo" class="h-9 w-auto" />
-                    </a>
-                </div>
-
-                {{-- Desktop menu --}}
-                <div class="hidden md:flex items-center gap-8">
-                    <a href="{{ url('/') }}" class="font-medium text-gray-700 hover:text-gray-900">Beranda</a>
-                    <a href="{{ route('about') }}" class="font-semibold text-gray-900">Tentang Kami</a>
-
-                    {{-- Program dropdown --}}
-                    <div class="relative group">
-                        <button type="button" class="flex items-center gap-1 font-medium text-gray-700 hover:text-gray-900">
-                            Program
-                            <svg class="w-4 h-4" viewBox="0 0 20 20" fill="currentColor">
-                                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/>
-                            </svg>
-                        </button>
-                        <div class="hidden group-hover:block absolute top-full left-0 mt-2 w-52 bg-white border border-gray-200 rounded-xl shadow-lg overflow-hidden">
-                            {{-- Ganti link sesuai kebutuhan --}}
-                            <a href="#" class="block px-4 py-3 text-sm text-gray-700 hover:bg-gray-50">Program 1</a>
-                            <a href="#" class="block px-4 py-3 text-sm text-gray-700 hover:bg-gray-50">Program 2</a>
-                            <a href="#" class="block px-4 py-3 text-sm text-gray-700 hover:bg-gray-50">Program 3</a>
-                        </div>
-                    </div>
-
-                    {{-- Karir dropdown --}}
-                    <div class="relative group">
-                        <button type="button" class="flex items-center gap-1 font-medium text-gray-700 hover:text-gray-900">
-                            Karir
-                            <svg class="w-4 h-4" viewBox="0 0 20 20" fill="currentColor">
-                                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/>
-                            </svg>
-                        </button>
-                        <div class="hidden group-hover:block absolute top-full left-0 mt-2 w-52 bg-white border border-gray-200 rounded-xl shadow-lg overflow-hidden">
-                            {{-- Ganti link sesuai kebutuhan --}}
-                            <a href="#" class="block px-4 py-3 text-sm text-gray-700 hover:bg-gray-50">Lowongan Kerja</a>
-                            <a href="#" class="block px-4 py-3 text-sm text-gray-700 hover:bg-gray-50">Magang</a>
-                            <a href="#" class="block px-4 py-3 text-sm text-gray-700 hover:bg-gray-50">Freelance</a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="flex items-center gap-3">
-                    <img src="{{ asset('img/logo/logo_Codingmu.webp') }}" alt="Logo" class="hidden sm:block h-9 w-auto" />
-
-                    {{-- Mobile menu button --}}
-                    <button type="button" class="md:hidden inline-flex items-center justify-center w-10 h-10 rounded-lg border border-gray-200 text-gray-700 hover:bg-gray-50"
-                        data-mobile-toggle
-                        aria-label="Open Menu">
-                        <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
-                        </svg>
-                    </button>
-                </div>
-            </div>
-
-            {{-- Mobile menu --}}
-            <div class="md:hidden hidden pb-4" data-mobile-menu>
-                <div class="pt-2 space-y-1">
-                    <a href="{{ url('/') }}" class="block px-3 py-2 rounded-lg text-gray-700 hover:bg-gray-50">Beranda</a>
-                    <a href="{{ route('about') }}" class="block px-3 py-2 rounded-lg font-semibold text-gray-900 bg-gray-50">Tentang Kami</a>
-
-                    <div class="px-3 pt-2 text-xs font-bold uppercase tracking-wider text-gray-500">Program</div>
-                    <a href="#" class="block px-3 py-2 rounded-lg text-gray-700 hover:bg-gray-50">Program 1</a>
-                    <a href="#" class="block px-3 py-2 rounded-lg text-gray-700 hover:bg-gray-50">Program 2</a>
-                    <a href="#" class="block px-3 py-2 rounded-lg text-gray-700 hover:bg-gray-50">Program 3</a>
-
-                    <div class="px-3 pt-2 text-xs font-bold uppercase tracking-wider text-gray-500">Karir</div>
-                    <a href="#" class="block px-3 py-2 rounded-lg text-gray-700 hover:bg-gray-50">Lowongan Kerja</a>
-                    <a href="#" class="block px-3 py-2 rounded-lg text-gray-700 hover:bg-gray-50">Magang</a>
-                    <a href="#" class="block px-3 py-2 rounded-lg text-gray-700 hover:bg-gray-50">Freelance</a>
-                </div>
-            </div>
-        </div>
-    </nav>
+    @include('layouts.partials.public-header')
 
     {{-- =========================
         HERO ABOUT
@@ -448,60 +365,7 @@
     {{-- =========================
         FOOTER
     ========================== --}}
-    <footer class="bg-slate-100 text-gray-900 py-12">
-        <div class="max-w-7xl mx-auto px-6">
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
-                <div class="flex items-start">
-                    <img src="{{ asset('assets/homepage/footer-1.webp') }}" alt="Logo" class="w-full max-w-[220px]" />
-                </div>
-
-                <div>
-                    <img src="{{ asset('assets/logo-asn.webp') }}" alt="Logo ASN" class="mb-4 max-w-[160px]" />
-                    <h3 class="font-extrabold text-xl mb-4">Contact Us</h3>
-                    <div class="space-y-2 text-sm mb-4 text-gray-700">
-                        <p>✉️ info.asn@anagataacademy.com</p>
-                    </div>
-                    <div class="flex gap-2">
-                        <a href="#" class="w-9 h-9 bg-green-600 rounded-lg grid place-items-center hover:bg-green-700 text-white font-bold">W</a>
-                        <a href="#" class="w-9 h-9 bg-blue-500 rounded-lg grid place-items-center hover:bg-blue-600 text-white font-bold">F</a>
-                        <a href="#" class="w-9 h-9 bg-black rounded-lg grid place-items-center hover:bg-gray-800 text-white font-bold">X</a>
-                        <a href="#" class="w-9 h-9 bg-red-600 rounded-lg grid place-items-center hover:bg-red-700 text-white font-bold">Y</a>
-                        <a href="#" class="w-9 h-9 bg-neutral-600 rounded-lg grid place-items-center hover:bg-neutral-700 text-white font-bold">I</a>
-                        <a href="#" class="w-9 h-9 bg-blue-400 rounded-lg grid place-items-center hover:bg-blue-500 text-white font-bold">L</a>
-                    </div>
-                </div>
-
-                <div>
-                    <img src="{{ asset('assets/homepage/QR-ASN.webp') }}" alt="QR Code" class="bg-white p-2 rounded-xl mb-4 max-w-[160px]" />
-                    <p class="text-sm text-gray-700">
-                        Revenue Tower, Lt 15, District 8 SCBD Jl. Jend. Sudirman Kav 52-53,
-                        Senayan, Kec. Kebayoran Baru, Kota Jakarta Selatan 12190
-                    </p>
-                </div>
-
-                <div>
-                    <div class="mb-4">
-                        <iframe class="w-full h-32 rounded-xl"
-                                frameborder="0" scrolling="no" marginheight="0" marginwidth="0"
-                                src="https://maps.google.com/maps?width=100%25&amp;height=600&amp;hl=id&amp;q=Revenue%20Tower%20SCBD+(Revenue%20Tower)&amp;t=&amp;z=14&amp;ie=UTF8&amp;iwloc=B&amp;output=embed">
-                        </iframe>
-                    </div>
-                    <div class="space-y-1 text-sm text-gray-700">
-                        <p class="font-extrabold text-gray-900">Terms & Policies</p>
-                        <a href="#" class="block hover:underline">Privacy Policy</a>
-                        <a href="#" class="block hover:underline">Terms of Service</a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="text-center text-sm border-t border-gray-300 pt-6 text-gray-700">
-                <p class="font-extrabold text-gray-900">&copy; 2024. All Rights Reserved PT. Anggota Sisaedu Nusantara</p>
-                <p class="mt-2">
-                    Anagata Academy dan CodingMU adalah trademark PT Anagata Sisedu Nusantara.
-                    Terdaftar di Direktorat Jenderal Kekayaan Intelektual Republik Indonesia.
-                </p>
-            </div>
-        </div>
+    @include('layouts.partials.public-footer')
     </footer>
 
     {{-- =========================

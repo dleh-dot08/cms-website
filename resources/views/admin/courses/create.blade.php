@@ -10,7 +10,21 @@
         <div class="max-w-3xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white shadow sm:rounded-lg border border-gray-200">
                 <div class="p-6">
-                    <form method="POST" action="{{ route('admin.courses.store') }}" class="space-y-5">
+
+                    {{-- ✅ Error summary biar kelihatan kalau validasi gagal --}}
+                    @if ($errors->any())
+                        <div class="mb-5 rounded-lg border border-red-200 bg-red-50 p-4 text-sm text-red-700">
+                            <div class="font-semibold mb-2">Ada yang perlu diperbaiki:</div>
+                            <ul class="list-disc pl-5 space-y-1">
+                                @foreach ($errors->all() as $e)
+                                    <li>{{ $e }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+
+                    {{-- ✅ enctype WAJIB biar upload foto tidak null --}}
+                    <form method="POST" action="{{ route('admin.courses.store') }}" enctype="multipart/form-data" class="space-y-5">
                         @csrf
 
                         <div>
@@ -66,6 +80,15 @@
                             <x-input-error class="mt-2" :messages="$errors->get('nama_kursus')" />
                         </div>
 
+                        {{-- ✅ INI yang kemarin bikin tidak ke-save: total_pertemuan tidak ada --}}
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-900">Total Pertemuan</label>
+                            <input name="total_pertemuan" type="number" min="1" required
+                                   value="{{ old('total_pertemuan', 1) }}"
+                                   class="mt-1 w-full rounded-md border-gray-300 focus:ring-indigo-500 focus:border-indigo-500">
+                            <x-input-error class="mt-2" :messages="$errors->get('total_pertemuan')" />
+                        </div>
+
                         <div>
                             <label class="block text-sm font-semibold text-gray-900">Foto Kursus</label>
                             <input type="file" name="foto_kursus" accept="image/*"
@@ -85,41 +108,50 @@
                                 <input name="periode_waktu" type="text" value="{{ old('periode_waktu') }}"
                                        placeholder="contoh: Jan–Mar 2026"
                                        class="mt-1 w-full rounded-md border-gray-300 focus:ring-indigo-500 focus:border-indigo-500">
+                                <x-input-error class="mt-2" :messages="$errors->get('periode_waktu')" />
                             </div>
+
                             <div>
                                 <label class="block text-sm font-semibold text-gray-900">Level</label>
                                 <input name="level" type="text" value="{{ old('level') }}"
                                        placeholder="contoh: Beginner / Level 1"
                                        class="mt-1 w-full rounded-md border-gray-300 focus:ring-indigo-500 focus:border-indigo-500">
+                                <x-input-error class="mt-2" :messages="$errors->get('level')" />
                             </div>
                         </div>
 
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <div>
                                 <label class="block text-sm font-semibold text-gray-900">Durasi (menit/pertemuan)</label>
-                                <input name="durasi_menit" type="number" min="0" value="{{ old('durasi_menit') }}"
+                                <input name="durasi_menit" type="number" min="0" value="{{ old('durasi_menit', 0) }}"
                                        class="mt-1 w-full rounded-md border-gray-300 focus:ring-indigo-500 focus:border-indigo-500">
+                                <x-input-error class="mt-2" :messages="$errors->get('durasi_menit')" />
                             </div>
+
                             <div>
                                 <label class="block text-sm font-semibold text-gray-900">Pelaksanaan</label>
                                 <input name="pelaksanaan" type="text" value="{{ old('pelaksanaan') }}"
                                        placeholder="Online / Offline / Hybrid"
                                        class="mt-1 w-full rounded-md border-gray-300 focus:ring-indigo-500 focus:border-indigo-500">
+                                <x-input-error class="mt-2" :messages="$errors->get('pelaksanaan')" />
                             </div>
                         </div>
 
                         <div>
                             <label class="inline-flex items-center gap-2 text-gray-900">
-                                <input type="checkbox" name="mendapatkan_sertifikat" value="1" class="rounded border-gray-300"
+                                <input type="checkbox" name="mendapatkan_sertifikat" value="1"
+                                       class="rounded border-gray-300"
                                        @checked(old('mendapatkan_sertifikat'))>
                                 <span class="text-sm font-semibold">Mendapatkan Sertifikat</span>
                             </label>
+                            <x-input-error class="mt-2" :messages="$errors->get('mendapatkan_sertifikat')" />
                         </div>
 
                         <div>
                             <label class="block text-sm font-semibold text-gray-900">Deskripsi Program</label>
                             <textarea name="deskripsi_program" rows="5"
                                       class="mt-1 w-full rounded-md border-gray-300 focus:ring-indigo-500 focus:border-indigo-500">{{ old('deskripsi_program') }}</textarea>
+                            <x-input-error class="mt-2" :messages="$errors->get('deskripsi_program')" />
                         </div>
 
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -127,18 +159,28 @@
                                 <label class="block text-sm font-semibold text-gray-900">Urutan</label>
                                 <input name="sort_order" type="number" min="0" value="{{ old('sort_order',0) }}"
                                        class="mt-1 w-full rounded-md border-gray-300 focus:ring-indigo-500 focus:border-indigo-500">
+                                <x-input-error class="mt-2" :messages="$errors->get('sort_order')" />
                             </div>
+
                             <div class="flex items-end">
                                 <label class="inline-flex items-center gap-2 text-gray-900">
-                                    <input type="checkbox" name="is_active" value="1" class="rounded border-gray-300" @checked(old('is_active', true))>
+                                    <input type="checkbox" name="is_active" value="1"
+                                           class="rounded border-gray-300"
+                                           @checked(old('is_active', true))>
                                     <span class="text-sm font-semibold">Aktif</span>
                                 </label>
+                                <x-input-error class="mt-2" :messages="$errors->get('is_active')" />
                             </div>
                         </div>
 
                         <div class="flex gap-2">
-                            <button class="px-5 py-2 rounded-md bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold">Simpan</button>
-                            <a href="{{ route('admin.courses.index') }}" class="px-5 py-2 rounded-md bg-gray-200 text-gray-900 text-sm font-semibold">Batal</a>
+                            <button class="px-5 py-2 rounded-md bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold">
+                                Simpan
+                            </button>
+                            <a href="{{ route('admin.courses.index') }}"
+                               class="px-5 py-2 rounded-md bg-gray-200 text-gray-900 text-sm font-semibold">
+                                Batal
+                            </a>
                         </div>
                     </form>
 
@@ -150,12 +192,14 @@
 
                             const filterSelect = (select) => {
                                 let hasSelectedVisible = false;
+
                                 [...select.options].forEach((opt, i) => {
                                     if (i === 0) return; // placeholder
-                                    const ok = opt.dataset.cat === cat;
+                                    const ok = !cat || opt.dataset.cat === cat;
                                     opt.hidden = !ok;
                                     if (ok && opt.selected) hasSelectedVisible = true;
                                 });
+
                                 if (!hasSelectedVisible) select.value = '';
                             };
 
@@ -166,6 +210,7 @@
                         document.getElementById('program_category_id').addEventListener('change', filterOptions);
                         window.addEventListener('DOMContentLoaded', filterOptions);
                     </script>
+
                 </div>
             </div>
         </div>
