@@ -79,9 +79,7 @@ class Course extends Model
     // Dipakai di Admin\CourseController@show -> load('meetings')
     public function meetings()
     {
-        return $this->hasMany(\App\Models\CourseMeeting::class, 'course_id')
-            ->orderBy('pertemuan_ke')
-            ->orderBy('sort_order');
+        return $this->hasMany(CourseMeeting::class, 'course_id');
     }
 
     /* =========================

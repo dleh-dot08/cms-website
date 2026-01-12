@@ -7,6 +7,7 @@ use App\Models\Course;
 use App\Models\ProgramCategory;
 use App\Models\Jenjang;
 use App\Models\SubProgram;
+use App\Models\CourseMeeting;
 
 class ProgramController extends Controller
 {
@@ -45,5 +46,18 @@ class ProgramController extends Controller
             ->withQueryString();
 
         return view('program', compact('categories', 'levels', 'subPrograms', 'courses'));
+    }
+
+    // ✅ SHOW PUBLIC (DETAIL PROGRAM)
+    public function show(Course $course)
+    {
+        $course->load(['programCategory', 'jenjang', 'subProgram']);
+
+        $meetings = $course->meetings()
+            ->where('is_active', 1)
+            ->orderBy('pertemuan_ke')
+            ->get();
+
+        return view('program-show', compact('course', 'meetings'));
     }
 }

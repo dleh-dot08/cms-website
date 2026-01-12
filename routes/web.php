@@ -22,6 +22,7 @@ use App\Http\Controllers\Admin\DivisionController;
 use App\Http\Controllers\Admin\WorkTypeController;
 use App\Http\Controllers\Admin\LocationController;
 use App\Http\Controllers\Public\AboutController;
+use App\Http\Controllers\ProgramController;
 
 
 /*
@@ -39,6 +40,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 Route::get('/tentang-kami', [AboutController::class, 'index'])->name('about');
+
+Route::get('/program', [ProgramController::class, 'index'])->name('program.index');
+Route::get('/program/{course}', [ProgramController::class, 'show'])->name('program.show');
 
 Route::get('/dashboard', function () {
     return view('dashboard');

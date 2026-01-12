@@ -259,8 +259,8 @@
                                     </p>
 
                                     <div class="mt-4">
-                                        <a href="{{ $detailUrl }}"
-                                           class="inline-flex w-full justify-center rounded-xl bg-gray-900 text-white font-bold py-2.5 hover:bg-black">
+                                        <a href="{{ route('program.show', $course) }}"
+                                            class="inline-flex w-full justify-center rounded-xl bg-gray-900 text-white font-bold py-2.5 hover:bg-black">
                                             Lihat Detail
                                         </a>
                                     </div>
