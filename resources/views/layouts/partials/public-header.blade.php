@@ -31,21 +31,22 @@
                 </a>
 
                 {{-- Karir dropdown desktop (hover) --}}
-                <div class="relative group">
-                    <button type="button"
-                            class="inline-flex items-center gap-1 text-gray-700 hover:text-gray-900 font-semibold">
-                        Karir
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                        </svg>
-                    </button>
-
-                    <div class="hidden group-hover:block absolute left-0 top-full mt-2 w-56 bg-white border border-gray-200 rounded-xl shadow-lg overflow-hidden">
-                        <a href="{{ url('/recruitment') }}" class="block px-4 py-3 text-gray-700 hover:bg-gray-50">Lowongan</a>
-                        <a href="{{ url('/recruitment?work_type=internship') }}" class="block px-4 py-3 text-gray-700 hover:bg-gray-50">Magang</a>
-                        <a href="{{ url('/recruitment?work_type=freelance') }}" class="block px-4 py-3 text-gray-700 hover:bg-gray-50">Freelance</a>
-                    </div>
-                </div>
+                <a href="{{ route('careers.index') }}"
+                   class="text-gray-700 hover:text-gray-900 font-semibold">
+                    Karir
+                </a>
+                <a href="{{ route('news.index') }}"
+                   class="text-gray-700 hover:text-gray-900 font-semibold">
+                    News
+                </a>
+                <a href="{{ route('blog.index') }}"
+                   class="text-gray-700 hover:text-gray-900 font-semibold">
+                    Blog
+                </a>
+                <a href="/"
+                   class="text-gray-700 hover:text-gray-900 font-semibold">
+                    Faq
+                </a>
             </div>
 
             {{-- Right --}}
@@ -82,6 +83,22 @@
                     class="block px-3 py-2 rounded-lg text-gray-800 font-semibold hover:bg-gray-100">
                     Program
                 </a>
+                <a href="{{ route('careers.index') }}"
+                   class="block px-3 py-2 rounded-lg text-gray-800 font-semibold hover:bg-gray-100">
+                    Karir
+                </a>
+                <a href="/"
+                   class="block px-3 py-2 rounded-lg text-gray-800 font-semibold hover:bg-gray-100">
+                    News
+                </a>
+                <a href="/"
+                   class="block px-3 py-2 rounded-lg text-gray-800 font-semibold hover:bg-gray-100">
+                    Blog
+                </a>
+                <a href="/"
+                   class="block px-3 py-2 rounded-lg text-gray-800 font-semibold hover:bg-gray-100">
+                    Faq
+                </a>
 
                 {{-- Program accordion --}}
                 <button type="button" @click="programOpen = !programOpen"
@@ -100,12 +117,6 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                     </svg>
                 </button>
-
-                <div x-show="karirOpen" x-transition class="pl-3 space-y-1">
-                    <a href="{{ url('/recruitment') }}" class="block px-3 py-2 rounded-lg text-gray-700 hover:bg-gray-100">Lowongan</a>
-                    <a href="{{ url('/recruitment?work_type=internship') }}" class="block px-3 py-2 rounded-lg text-gray-700 hover:bg-gray-100">Magang</a>
-                    <a href="{{ url('/recruitment?work_type=freelance') }}" class="block px-3 py-2 rounded-lg text-gray-700 hover:bg-gray-100">Freelance</a>
-                </div>
             </div>
         </div>
     </div>

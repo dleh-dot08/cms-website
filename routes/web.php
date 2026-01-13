@@ -23,6 +23,9 @@ use App\Http\Controllers\Admin\WorkTypeController;
 use App\Http\Controllers\Admin\LocationController;
 use App\Http\Controllers\Public\AboutController;
 use App\Http\Controllers\ProgramController;
+use App\Http\Controllers\Public\CareerController;
+use App\Http\Controllers\Public\NewsController as PublicNewsController;
+use App\Http\Controllers\Public\BlogController as PublicBlogController;
 
 
 /*
@@ -43,6 +46,15 @@ Route::get('/tentang-kami', [AboutController::class, 'index'])->name('about');
 
 Route::get('/program', [ProgramController::class, 'index'])->name('program.index');
 Route::get('/program/{course}', [ProgramController::class, 'show'])->name('program.show');
+
+Route::get('/karir', [CareerController::class, 'index'])->name('careers.index');
+Route::get('/karir/{job:slug}', [CareerController::class, 'show'])->name('careers.show');
+
+Route::get('/news', [PublicNewsController::class, 'index'])->name('news.index');
+Route::get('/news/{post:slug}', [PublicNewsController::class, 'show'])->name('news.show');
+
+Route::get('/blog', [PublicBlogController::class, 'index'])->name('blog.index');
+Route::get('/blog/{post:slug}', [PublicBlogController::class, 'show'])->name('blog.show');
 
 Route::get('/dashboard', function () {
     return view('dashboard');

@@ -128,7 +128,7 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             @for($i=1; $i<=4; $i++)
                 <div class="bg-white p-5 rounded-2xl shadow hover:shadow-lg transition">
-                    <img src="{{ asset('assets/homepage/special-benefit.jpg') }}"
+                    <img src="{{ asset('img/homepage/special-benefit.jpg') }}"
                          alt="Benefit"
                          class="w-full h-36 object-cover rounded-xl mb-4">
                     <h3 class="font-bold text-base sm:text-lg mb-2">Judul Benefit {{ $i }}</h3>
@@ -153,16 +153,23 @@
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
             @php
                 $programs = [
-                    ['title' => 'Teknologi Digital', 'img' => 'assets/homepage/teknologi-digital.webp'],
-                    ['title' => 'Bahasa dan Sastra', 'img' => 'assets/homepage/bahasa-dan-sastra.webp'],
-                    ['title' => 'Soft Skill', 'img' => 'assets/homepage/soft-skill.webp'],
+                    ['title' => 'Teknologi Digital', 'img' => 'img/homepage/teknologi-digital.webp'],
+                    ['title' => 'Bahasa dan Sastra', 'img' => 'img/homepage/bahasa-dan-sastra.webp'],
+                    ['title' => 'Soft Skill', 'img' => 'img/homepage/soft-skill.webp'],
                 ];
             @endphp
 
             @foreach($programs as $p)
-                <div class="bg-white p-5 rounded-2xl shadow hover:shadow-lg transition text-center">
-                    <img src="{{ asset($p['img']) }}" alt="{{ $p['title'] }}" class="w-full h-40 object-cover rounded-xl mb-4">
-                    <h3 class="font-bold text-lg">{{ $p['title'] }}</h3>
+                <div class="flex flex-col items-center text-center">
+                    <img 
+                        src="{{ asset($p['img']) }}" 
+                        alt="{{ $p['title'] }}" 
+                        class="h-[320px] w-auto object-contain mb-6"
+                    >
+
+                    <h3 class="font-bold text-lg text-gray-900">
+                        {{ $p['title'] }}
+                    </h3>
                 </div>
             @endforeach
         </div>

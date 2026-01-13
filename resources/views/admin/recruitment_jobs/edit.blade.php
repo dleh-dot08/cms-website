@@ -1,3 +1,5 @@
+{{-- resources/views/admin/recruitment_jobs/edit.blade.php --}}
+
 <x-app-layout>
     <x-slot name="header">
         <div class="flex items-start justify-between gap-4">
@@ -23,7 +25,10 @@
 
             <div class="bg-white shadow sm:rounded-lg border border-gray-200">
                 <div class="p-6">
-                    <form method="POST" action="{{ route('admin.recruitment_jobs.update', $job) }}" enctype="multipart/form-data" class="space-y-6">
+                    <form method="POST"
+                          action="{{ route('admin.recruitment_jobs.update', $job) }}"
+                          enctype="multipart/form-data"
+                          class="space-y-6">
                         @csrf
                         @method('PUT')
 
@@ -70,7 +75,10 @@
                                 <input type="text" name="judul" required value="{{ old('judul', $job->judul) }}"
                                        class="mt-1 w-full rounded-md border-gray-300 focus:ring-indigo-500 focus:border-indigo-500">
                                 <x-input-error class="mt-2" :messages="$errors->get('judul')" />
-                                <p class="mt-1 text-xs text-gray-600">Slug otomatis: <span class="font-semibold text-gray-900">{{ $job->slug }}</span></p>
+                                <p class="mt-1 text-xs text-gray-600">
+                                    Slug otomatis:
+                                    <span class="font-semibold text-gray-900">{{ $job->slug }}</span>
+                                </p>
                             </div>
 
                             <div>
@@ -97,7 +105,7 @@
                             <div>
                                 <label class="block text-sm font-bold text-gray-900">Cover / Thumbnail</label>
 
-                                @if($job->cover_image_url)
+                                @if(!empty($job->cover_image_url))
                                     <div class="mt-2 flex items-center gap-3">
                                         <img src="{{ $job->cover_image_url }}" alt="cover"
                                              class="w-32 h-20 object-cover rounded border border-gray-200">
@@ -121,7 +129,7 @@
                                 <select name="tag_ids[]" multiple
                                         class="mt-1 w-full rounded-md border-gray-300 focus:ring-indigo-500 focus:border-indigo-500">
                                     @php
-                                        $selectedTags = collect(old('tag_ids', $job->tags->pluck('id')->toArray()));
+                                        $selectedTags = collect(old('tag_ids', $job->tags?->pluck('id')->toArray() ?? []));
                                     @endphp
                                     @foreach($tags as $t)
                                         <option value="{{ $t->id }}" @selected($selectedTags->contains($t->id))>
@@ -181,30 +189,57 @@
                             <x-input-error class="mt-2" :messages="$errors->get('kualifikasi_detail')" />
                         </div>
 
+                        @php
+                            /**
+                             * Normalizer: array/json/string -> teks 1 baris 1 poin
+                             * - Prioritas: old()
+                             * - Jika DB string JSON -> decode
+                             * - Jika DB string biasa -> split per baris
+                             */
+                            $normalizeLines = function (string $oldKey, $value) {
+                                $oldVal = old($oldKey);
+                                if (!is_null($oldVal)) return $oldVal;
+
+                                $val = $value ?? [];
+
+                                if (is_string($val)) {
+                                    $decoded = json_decode($val, true);
+                                    if (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) {
+                                        $val = $decoded;
+                                    } else {
+                                        $val = preg_split("/\R/u", $val) ?: [];
+                                    }
+                                }
+
+                                return is_array($val) ? implode(PHP_EOL, $val) : (string) $val;
+                            };
+
+                            $respText = $normalizeLines('responsibilities', $job->responsibilities ?? []);
+                            $reqText  = $normalizeLines('requirements',      $job->requirements ?? []);
+                            $benText  = $normalizeLines('benefits',          $job->benefits ?? []);
+                            $dokText  = $normalizeLines('dokumen_diminta',   $job->dokumen_diminta ?? []);
+                        @endphp
+
                         {{-- BULLET LIST --}}
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                             <div>
                                 <label class="block text-sm font-bold text-gray-900">Responsibilities (1 baris 1 poin)</label>
                                 <textarea name="responsibilities" rows="8"
-                                          class="mt-1 w-full rounded-md border-gray-300 focus:ring-indigo-500 focus:border-indigo-500">@php
-{{ old('responsibilities', $job->responsibilities ? implode("\n", $job->responsibilities) : '') }}
-@endphp</textarea>
+                                          class="mt-1 w-full rounded-md border-gray-300 focus:ring-indigo-500 focus:border-indigo-500">{{ $respText }}</textarea>
                                 <x-input-error class="mt-2" :messages="$errors->get('responsibilities')" />
                             </div>
+
                             <div>
                                 <label class="block text-sm font-bold text-gray-900">Requirements (1 baris 1 poin)</label>
                                 <textarea name="requirements" rows="8"
-                                          class="mt-1 w-full rounded-md border-gray-300 focus:ring-indigo-500 focus:border-indigo-500">@php
-{{ old('requirements', $job->requirements ? implode("\n", $job->requirements) : '') }}
-@endphp</textarea>
+                                          class="mt-1 w-full rounded-md border-gray-300 focus:ring-indigo-500 focus:border-indigo-500">{{ $reqText }}</textarea>
                                 <x-input-error class="mt-2" :messages="$errors->get('requirements')" />
                             </div>
+
                             <div>
                                 <label class="block text-sm font-bold text-gray-900">Benefits (1 baris 1 poin)</label>
                                 <textarea name="benefits" rows="8"
-                                          class="mt-1 w-full rounded-md border-gray-300 focus:ring-indigo-500 focus:border-indigo-500">@php
-{{ old('benefits', $job->benefits ? implode("\n", $job->benefits) : '') }}
-@endphp</textarea>
+                                          class="mt-1 w-full rounded-md border-gray-300 focus:ring-indigo-500 focus:border-indigo-500">{{ $benText }}</textarea>
                                 <x-input-error class="mt-2" :messages="$errors->get('benefits')" />
                             </div>
                         </div>
@@ -255,9 +290,7 @@
                             <div>
                                 <label class="block text-sm font-bold text-gray-900">Dokumen Diminta (1 baris 1 item)</label>
                                 <textarea name="dokumen_diminta" rows="5"
-                                          class="mt-1 w-full rounded-md border-gray-300 focus:ring-indigo-500 focus:border-indigo-500">@php
-{{ old('dokumen_diminta', $job->dokumen_diminta ? implode("\n", $job->dokumen_diminta) : '') }}
-@endphp</textarea>
+                                          class="mt-1 w-full rounded-md border-gray-300 focus:ring-indigo-500 focus:border-indigo-500">{{ $dokText }}</textarea>
                                 <x-input-error class="mt-2" :messages="$errors->get('dokumen_diminta')" />
                             </div>
                             <div>
@@ -279,10 +312,12 @@
                                     class="px-5 py-2 rounded-md bg-indigo-600 text-white text-sm font-semibold hover:bg-indigo-700">
                                 Update
                             </button>
+
                             <a href="{{ route('admin.recruitment_jobs.show', $job) }}"
                                class="px-5 py-2 rounded-md bg-gray-900 text-white text-sm font-semibold hover:bg-black">
                                 Lihat Detail
                             </a>
+
                             <a href="{{ route('admin.recruitment_jobs.index') }}"
                                class="px-5 py-2 rounded-md bg-gray-200 text-gray-900 text-sm font-semibold hover:bg-gray-300">
                                 Batal

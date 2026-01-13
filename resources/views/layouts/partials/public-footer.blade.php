@@ -27,7 +27,7 @@
 
             {{-- Col 3 --}}
             <div>
-                <img src="{{ asset('assets/homepage/QR-ASN.webp') }}" alt="QR Code"
+                <img src="{{ asset('img/homepage/QR-ASN.webp') }}" alt="QR Code"
                      class="bg-white p-2 rounded-xl mb-4 max-w-[160px]" />
                 <p class="text-sm text-gray-700">
                     Revenue Tower, Lt 15, District 8 SCBD Jl. Jend. Sudirman Kav 52-53,

@@ -102,4 +102,5 @@ class RecruitmentJob extends Model
     {
         return $this->status === 'open';
     }
+    
 }
