@@ -43,10 +43,6 @@
                    class="text-gray-700 hover:text-gray-900 font-semibold">
                     Blog
                 </a>
-                <a href="/"
-                   class="text-gray-700 hover:text-gray-900 font-semibold">
-                    Faq
-                </a>
             </div>
 
             {{-- Right --}}
@@ -95,28 +91,6 @@
                    class="block px-3 py-2 rounded-lg text-gray-800 font-semibold hover:bg-gray-100">
                     Blog
                 </a>
-                <a href="/"
-                   class="block px-3 py-2 rounded-lg text-gray-800 font-semibold hover:bg-gray-100">
-                    Faq
-                </a>
-
-                {{-- Program accordion --}}
-                <button type="button" @click="programOpen = !programOpen"
-                        class="w-full flex items-center justify-between px-3 py-2 rounded-lg text-gray-800 font-semibold hover:bg-gray-100">
-                    <span>Program</span>
-                    <svg class="w-4 h-4 transition-transform" :class="programOpen ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                    </svg>
-                </button>
-
-                {{-- Karir accordion --}}
-                <button type="button" @click="karirOpen = !karirOpen"
-                        class="w-full flex items-center justify-between px-3 py-2 rounded-lg text-gray-800 font-semibold hover:bg-gray-100">
-                    <span>Karir</span>
-                    <svg class="w-4 h-4 transition-transform" :class="karirOpen ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                    </svg>
-                </button>
             </div>
         </div>
     </div>
