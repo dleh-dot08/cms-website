@@ -26,6 +26,7 @@ use App\Http\Controllers\ProgramController;
 use App\Http\Controllers\Public\CareerController;
 use App\Http\Controllers\Public\NewsController as PublicNewsController;
 use App\Http\Controllers\Public\BlogController as PublicBlogController;
+use App\Http\Controllers\Admin\CkeditorUploadController;
 
 
 /*
@@ -134,6 +135,7 @@ Route::middleware(['auth','role:superadmin,admin,marketing'])
         Route::resource('blogs', BlogController::class)->parameters(['blogs' => 'post']);
         Route::resource('news', NewsController::class)->parameters(['news' => 'post']);
         Route::resource('categories', CategoryController::class)->parameters(['categories' => 'category']);
+        Route::post('uploads/ckeditor', [CkeditorUploadController::class, 'store'])->name('uploads.ckeditor');
 
         // ✅ MASTER KURSUS (semua di dalam group admin)
         Route::resource('program-categories', ProgramCategoryController::class)

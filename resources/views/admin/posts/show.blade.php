@@ -31,7 +31,9 @@
         <div class="max-w-4xl mx-auto sm:px-6 lg:px-8 space-y-4">
 
             <div class="bg-white dark:bg-gray-900 shadow sm:rounded-lg border border-gray-200 dark:border-gray-800">
-                <div class="p-6 space-y-4">
+                <div class="p-6 space-y-5">
+
+                    {{-- Header info --}}
                     <div class="flex items-start gap-4">
                         @if (!empty($post->gambar_utama_path))
                             <img src="{{ Storage::url($post->gambar_utama_path) }}"
@@ -49,16 +51,23 @@
                             <div class="text-xl font-bold text-gray-900 dark:text-gray-100">
                                 {{ $post->judul }}
                             </div>
+
                             <div class="mt-1 text-sm text-gray-700 dark:text-gray-300">
-                                Author: <span class="font-semibold">{{ $post->author?->name ?? '-' }}</span> |
-                                Status: <span class="font-semibold">{{ strtoupper($post->status) }}</span> |
-                                Publish: <span class="font-semibold">{{ $post->published_at?->format('Y-m-d H:i') ?? '-' }}</span>
+                                Author:
+                                <span class="font-semibold">{{ $post->author?->name ?? '-' }}</span>
+                                <span class="text-gray-400">|</span>
+                                Status:
+                                <span class="font-semibold">{{ strtoupper($post->status) }}</span>
+                                <span class="text-gray-400">|</span>
+                                Publish:
+                                <span class="font-semibold">{{ $post->published_at?->format('Y-m-d H:i') ?? '-' }}</span>
                             </div>
 
                             <div class="mt-2 flex flex-wrap gap-2">
                                 <span class="px-2 py-1 rounded text-xs font-bold
-                                    {{ $post->ditampilkan_di_beranda ? 'bg-indigo-100 text-indigo-900 dark:bg-indigo-900/40 dark:text-indigo-100'
-                                                                    : 'bg-gray-200 text-gray-900 dark:bg-gray-800 dark:text-gray-100' }}">
+                                    {{ $post->ditampilkan_di_beranda
+                                        ? 'bg-indigo-100 text-indigo-900 dark:bg-indigo-900/40 dark:text-indigo-100'
+                                        : 'bg-gray-200 text-gray-900 dark:bg-gray-800 dark:text-gray-100' }}">
                                     {{ $post->ditampilkan_di_beranda ? 'Ditampilkan di Beranda' : 'Tidak di Beranda' }}
                                 </span>
 
@@ -71,8 +80,9 @@
                         </div>
                     </div>
 
+                    {{-- Ringkasan --}}
                     @if(!empty($post->ringkasan))
-                        <div>
+                        <div class="border-t border-gray-200 dark:border-gray-800 pt-4">
                             <div class="text-sm font-bold text-gray-900 dark:text-gray-100">Ringkasan</div>
                             <p class="mt-1 text-sm text-gray-800 dark:text-gray-200 whitespace-pre-line">
                                 {{ $post->ringkasan }}
@@ -80,19 +90,16 @@
                         </div>
                     @endif
 
+                    {{-- Konten --}}
                     <div class="border-t border-gray-200 dark:border-gray-800 pt-4">
                         <div class="text-sm font-bold text-gray-900 dark:text-gray-100">Konten</div>
 
-                        {{-- Konten disimpan HTML? --}}
-                        <div class="prose dark:prose-invert max-w-none mt-2">
+                        {{-- Konten HTML dari CKEditor --}}
+                        <div class="prose dark:prose-invert max-w-none mt-3">
                             {!! $post->konten !!}
                         </div>
-
-                        {{-- Kalau konten kamu masih plain text (bukan HTML),
-                             ganti blok di atas menjadi:
-                             <pre class="mt-2 whitespace-pre-wrap text-sm text-gray-800 dark:text-gray-200">{{ $post->konten }}</pre>
-                        --}}
                     </div>
+
                 </div>
             </div>
 

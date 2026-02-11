@@ -59,9 +59,12 @@
 
                         <div>
                             <x-input-label for="konten" :value="'Konten'" />
-                            <textarea id="konten" name="konten" rows="10"
+                            <textarea id="konten" name="konten" rows="12"
                                 class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-950 dark:text-gray-100 focus:ring-indigo-500 focus:border-indigo-500"
                                 required>{{ old('konten', $post->konten) }}</textarea>
+                            <p class="mt-2 text-xs text-gray-600 dark:text-gray-300">
+                                Kamu bisa upload gambar langsung dari editor.
+                            </p>
                             <x-input-error class="mt-2" :messages="$errors->get('konten')" />
                         </div>
 
@@ -75,7 +78,7 @@
                                     </p>
                                     <img src="{{ Storage::url($post->gambar_utama_path) }}"
                                          alt="Gambar"
-                                         class="h-20 w-20 object-cover object-center rounded-md border border-gray-200 dark:border-gray-800">
+                                         class="h-24 w-24 object-cover object-center rounded-md border border-gray-200 dark:border-gray-800">
                                 </div>
                             @endif
 
@@ -180,4 +183,33 @@
             </div>
         </div>
     </div>
+
+    @push('scripts')
+        <script src="https://cdn.ckeditor.com/ckeditor5/41.4.2/classic/ckeditor.js"></script>
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                const el = document.querySelector('#konten');
+                if (!el) return; // ✅ biar gak error kalau elemen belum ada / halaman lain
+
+                ClassicEditor
+                    .create(el, {
+                        toolbar: [
+                            'heading','|',
+                            'bold','italic','underline','link','|',
+                            'bulletedList','numberedList','|',
+                            'blockQuote','insertTable','|',
+                            'imageUpload','undo','redo'
+                        ],
+                        ckfinder: {
+                            uploadUrl: "{{ route('admin.uploads.ckeditor') }}?&_token={{ csrf_token() }}"
+                        },
+                        table: {
+                            contentToolbar: ['tableColumn', 'tableRow', 'mergeTableCells']
+                        }
+                    })
+                    .catch(error => console.error(error));
+            });
+        </script>
+    @endpush
+
 </x-app-layout>

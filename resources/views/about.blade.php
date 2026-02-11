@@ -20,45 +20,50 @@
         HERO ABOUT
     ========================== --}}
     <section class="py-8 px-8 bg-blue-50">
-      <div class="max-w-7xl mx-auto">
-        <div
-          class="flex flex-col lg:flex-row justify-between items-center gap-12"
-        >
-          <div class="lg:w-1/2">
-            <img
-              src="{{ asset('img/tentang-kami/tentang-kami.webp') }}"
-              alt="tentang kami"
-              class="rounded-2xl shadow-2xl w-full"
-            />
-          </div>
-          <div class="lg:w-1/2 space-y-6">
-            <p
-              class="text-blue-600 font-semibold text-sm uppercase tracking-wide"
-            >
-              Tentang Perusahaan
-            </p>
-            <h1
-              class="text-4xl lg:text-5xl font-bold text-gray-900 leading-tight"
-            >
-              Mitra Tepat Kembangkan Bakat
-            </h1>
-            <p class="text-gray-600 text-lg leading-relaxed">
-              Anagata Sisedu Nusantara (ASN) berdiri untuk memajukan edukasi
-              Indonesia yang berfokus pada pengembangan Teknologi Digital,
-              Artificial Intelligence, Bahasa dan Soft Skill untuk sekolah,
-              perguruan tinggi dan publik.
-              <br /><br />
-              Melalui Anagata Academy dan CodingMU, kami siap mendampingi sumber
-              daya insani Indonesia menuju Indonesia Emas 2045
-            </p>
-            <button
-              class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-8 py-3 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
-            >
-              Company Profile
-            </button>
-          </div>
+        <div class="max-w-7xl mx-auto">
+            <div class="flex flex-col lg:flex-row justify-between items-center gap-12">
+                <div class="lg:w-1/2">
+                    <img
+                        src="{{ asset('img/tentang-kami/tentang-kami.webp') }}"
+                        alt="Tentang kami"
+                        class="rounded-2xl shadow-2xl w-full"
+                    />
+                </div>
+
+                <div class="lg:w-1/2 space-y-6">
+                    <p class="text-blue-600 font-semibold text-sm uppercase tracking-wide">
+                        Tentang Kami
+                    </p>
+
+                    <h1 class="text-4xl lg:text-5xl font-bold text-gray-900 leading-tight">
+                        Anagata Sisedu Nusantara: Memberdayakan Generasi, Menciptakan Masa Depan.
+                    </h1>
+
+                    <div class="text-gray-700 text-lg leading-relaxed space-y-4">
+                        <p>
+                            <span class="font-semibold">Anagata</span> berarti <span class="font-semibold">Masa Depan</span>.
+                            Kami mempersiapkan masa depan dengan membangun sistem pendidikan yang relevan, modern, dan dapat diakses
+                            oleh seluruh talenta muda di tanah air.
+                        </p>
+
+                        <p>
+                            Langkah Anda hari ini menentukan posisi Anda di masa depan.
+                            Mari bergabung bersama Anagata Sisedu Nusantara untuk mengubah rasa ingin tahu menjadi keahlian,
+                            dan tantangan digital menjadi peluang tanpa batas.
+                        </p>
+
+                        <p class="font-semibold text-gray-900">
+                            Mari kita lukis masa depan Indonesia dengan inovasi yang bermakna.
+                        </p>
+                    </div>
+
+                    <a href="{{ url('/company-profile') }}"
+                       class="inline-flex items-center justify-center bg-blue-600 hover:bg-blue-700 text-white font-semibold px-8 py-3 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+                        Company Profile
+                    </a>
+                </div>
+            </div>
         </div>
-      </div>
     </section>
 
     {{-- =========================
@@ -70,17 +75,18 @@
                 <div class="border border-gray-200 rounded-3xl p-8 bg-white shadow-sm">
                     <img src="{{ asset('img/logo/logo_aa.webp') }}" alt="Anagata Academy" class="h-12 w-auto mb-5">
                     <p class="text-gray-700 leading-relaxed">
-                        Lembaga Kursus dan Pelatihan (LKP) di bawah naungan Anagata Sisedu Nusantara.
-                        Anagata Academy memberikan kursus dan pelatihan kepada siswa, SDM, lembaga pendidikan, dan publik.
+                        <span class="font-semibold">Anagata Academy</span> adalah unit pendidikan dan pelatihan dari Anagata Sisedu Nusantara.
+                        Kami menyediakan program kursus dan pelatihan untuk siswa, SDM, lembaga pendidikan, dan publik
+                        dengan fokus pada keterampilan digital yang relevan untuk masa depan.
                     </p>
                 </div>
 
                 <div class="border border-gray-200 rounded-3xl p-8 bg-white shadow-sm">
                     <img src="{{ asset('img/logo/logo_codingmu.webp') }}" alt="CodingMU" class="h-12 w-auto mb-5">
                     <p class="text-gray-700 leading-relaxed">
-                        Coding Muhammadiyah (CodingMU) adalah platform kursus coding dan teknologi digital eksklusif
-                        untuk siswa, mahasiswa, dan warga Persyarikatan Muhammadiyah.
-                        Bersama Muhammadiyah, ASN berkomitmen memajukan kurikulum digital di sekolah dan perguruan tinggi Muhammadiyah & ‘Aisyiyah.
+                        <span class="font-semibold">CodingMU</span> adalah platform pembelajaran coding dan teknologi digital.
+                        Programnya dirancang untuk membantu pelajar dan pendidik mengembangkan kemampuan problem solving,
+                        kreativitas, dan literasi teknologi melalui pembelajaran yang praktis dan menyenangkan.
                     </p>
                 </div>
             </div>
@@ -117,99 +123,71 @@
         </div>
     </section>
 
+    {{-- =========================
+        OUR DIRECTOR
+    ========================== --}}
     <section class="bg-white py-16">
-      <div class="max-w-6xl mx-auto px-6 md:px-12 lg:px-16">
-        <h2 class="text-3xl md:text-4xl font-bold text-center mb-12">
-          Our Director
-        </h2>
+        <div class="max-w-6xl mx-auto px-6 md:px-12 lg:px-16">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-12">Our Director</h2>
 
-        <div
-          class="flex flex-col md:flex-row items-center justify-between gap-10"
-        >
-          <!-- Director Image -->
-          <div class="flex-1 flex justify-center">
-            <img
-              src="{{ asset('img/tentang-kami/SIGIT-SUTRISNO-DIRECTORr-e1740495869559.webp')}}"
-              alt="Director"
-              class="w-64 md:w-80 lg:w-96 rounded-xl object-cover drop-shadow-md"
-            />
-          </div>
+            <div class="flex flex-col md:flex-row items-center justify-between gap-10">
+                <div class="flex-1 flex justify-center">
+                    <img
+                        src="{{ asset('img/tentang-kami/SIGIT-SUTRISNO-DIRECTORr-e1740495869559.webp')}}"
+                        alt="Director"
+                        class="w-64 md:w-80 lg:w-96 rounded-xl object-cover drop-shadow-md"
+                    />
+                </div>
 
-          <!-- Director Description -->
-          <div
-            class="flex-1 bg-white border border-gray-200 rounded-2xl p-8 md:p-10 shadow-sm"
-          >
-            <p class="text-gray-700 leading-relaxed text-justify mb-6">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris
-              sed risus at orci dignissim fringilla. Sed metus dolor, tempor sit
-              amet odio non, dignissim suscipit justo. Pellentesque habitant
-              morbi tristique senectus et netus et malesuada fames ac turpis
-              egestas. Ut arcu ex, pulvinar eget lobortis ut, venenatis euismod
-              purus. Vivamus tristique lobortis risus et pretium. Curabitur non
-              felis vehicula, commodo leo id, volutpat quam. Aliquam erat
-              volutpat.
-            </p>
-            <p class="text-gray-700 leading-relaxed text-justify mb-8">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris
-              sed risus at orci dignissim fringilla. Sed metus dolor, tempor sit
-              amet odio non, dignissim suscipit justo. Pellentesque habitant
-              morbi tristique senectus et netus et malesuada fames ac turpis
-              egestas.
-            </p>
-            <p class="font-semibold text-gray-900 text-center">
-              Sigit Sutrisno
-            </p>
-            <p class="text-sm text-gray-500 text-center">Director</p>
-          </div>
+                <div class="flex-1 bg-white border border-gray-200 rounded-2xl p-8 md:p-10 shadow-sm">
+                    <p class="text-gray-700 leading-relaxed text-justify mb-6">
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris sed risus at orci dignissim fringilla.
+                        Sed metus dolor, tempor sit amet odio non, dignissim suscipit justo. Pellentesque habitant morbi tristique
+                        senectus et netus et malesuada fames ac turpis egestas.
+                    </p>
+                    <p class="text-gray-700 leading-relaxed text-justify mb-8">
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris sed risus at orci dignissim fringilla.
+                        Sed metus dolor, tempor sit amet odio non, dignissim suscipit justo.
+                    </p>
+                    <p class="font-semibold text-gray-900 text-center">Sigit Sutrisno</p>
+                    <p class="text-sm text-gray-500 text-center">Director</p>
+                </div>
+            </div>
         </div>
-      </div>
     </section>
 
+    {{-- =========================
+        KEPALA LEMBAGA
+    ========================== --}}
     <section class="bg-white py-16">
-      <div class="max-w-6xl mx-auto px-6 md:px-12 lg:px-16">
-        <h2 class="text-3xl md:text-4xl font-bold text-center mb-12">
-          Kepala Lembaga Kursus dan Digital
-        </h2>
+        <div class="max-w-6xl mx-auto px-6 md:px-12 lg:px-16">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-12">
+                Kepala Lembaga Kursus dan Digital
+            </h2>
 
-        <div
-          class="flex flex-col md:flex-row items-center justify-between gap-10"
-        >
-          <div
-            class="flex-1 bg-white border border-gray-200 rounded-2xl p-8 md:p-10 shadow-sm"
-          >
-            <p class="text-gray-700 leading-relaxed text-justify mb-6">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris
-              sed risus at orci dignissim fringilla. Sed metus dolor, tempor sit
-              amet odio non, dignissim suscipit justo. Pellentesque habitant
-              morbi tristique senectus et netus et malesuada fames ac turpis
-              egestas. Ut arcu ex, pulvinar eget lobortis ut, venenatis euismod
-              purus. Vivamus tristique lobortis risus et pretium. Curabitur non
-              felis vehicula, commodo leo id, volutpat quam. Aliquam erat
-              volutpat.
-            </p>
-            <p class="text-gray-700 leading-relaxed text-justify mb-8">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris
-              sed risus at orci dignissim fringilla. Sed metus dolor, tempor sit
-              amet odio non, dignissim suscipit justo. Pellentesque habitant
-              morbi tristique senectus et netus et malesuada fames ac turpis
-              egestas.
-            </p>
-            <p class="font-semibold text-gray-900 text-center">
-              Sheila Purnama
-            </p>
-            <p class="text-sm text-gray-500 text-center">
-              Kepala Lembaga Kursus dan Digital
-            </p>
-          </div>
-          <div class="flex-1 flex justify-center">
-            <img
-              src="{{ asset('img/tentang-kami/Sheila Purnama.webp') }}"
-              alt="Director"
-              class="w-64 md:w-80 lg:w-96 rounded-xl object-cover"
-            />
-          </div>
+            <div class="flex flex-col md:flex-row items-center justify-between gap-10">
+                <div class="flex-1 bg-white border border-gray-200 rounded-2xl p-8 md:p-10 shadow-sm">
+                    <p class="text-gray-700 leading-relaxed text-justify mb-6">
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris sed risus at orci dignissim fringilla.
+                        Sed metus dolor, tempor sit amet odio non, dignissim suscipit justo.
+                    </p>
+                    <p class="text-gray-700 leading-relaxed text-justify mb-8">
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris sed risus at orci dignissim fringilla.
+                        Sed metus dolor, tempor sit amet odio non, dignissim suscipit justo.
+                    </p>
+                    <p class="font-semibold text-gray-900 text-center">Sheila Purnama</p>
+                    <p class="text-sm text-gray-500 text-center">Kepala Lembaga Kursus dan Digital</p>
+                </div>
+
+                <div class="flex-1 flex justify-center">
+                    <img
+                        src="{{ asset('img/tentang-kami/Sheila Purnama.webp') }}"
+                        alt="Kepala Lembaga"
+                        class="w-64 md:w-80 lg:w-96 rounded-xl object-cover"
+                    />
+                </div>
+            </div>
         </div>
-      </div>
     </section>
 
     {{-- =========================
@@ -366,7 +344,6 @@
         FOOTER
     ========================== --}}
     @include('layouts.partials.public-footer')
-    </footer>
 
     {{-- =========================
         JS: Mobile menu + Coverflow slider

@@ -50,8 +50,9 @@
           <p class="mt-4 text-gray-700 font-medium">{{ $post->ringkasan }}</p>
         @endif
 
+        {{-- ✅ konten HTML dari CKEditor --}}
         <div class="prose max-w-none mt-6">
-          {!! nl2br(e($post->konten)) !!}
+          {!! $post->konten !!}
         </div>
       </div>
     </article>

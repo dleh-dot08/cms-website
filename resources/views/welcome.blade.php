@@ -123,20 +123,59 @@
 
     {{-- BENEFITS --}}
     <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-        <h2 class="text-2xl sm:text-3xl font-extrabold text-center text-gray-900 mb-8">Spesial Benefits</h2>
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-center text-gray-900 mb-8">
+            Spesial Benefits
+        </h2>
+
+        @php
+            $benefits = [
+                [
+                    'title' => 'Bikin Karya Sendiri!',
+                    'subtitle' => 'Dari tukang main game, jadi pencipta game!',
+                    'desc' => 'Kamu nggak cuma jadi penonton. Kamu bakal bisa bikin game, website, atau aplikasi sendiri dari nol.',
+                    'img' => 'img/homepage/special-benefit.jpg',
+                ],
+                [
+                    'title' => 'Melatih Mental Juara',
+                    'subtitle' => 'Latih logika biar kamu jadi si paling kritis di kelas.',
+                    'desc' => 'Kamu jadi makin jago nemuin solusi buat masalah sesulit apa pun.',
+                    'img' => 'img/homepage/special-benefit.jpg',
+                ],
+                [
+                    'title' => 'Skill yang Dibutuhkan di Masa Depan',
+                    'subtitle' => 'Punya Skill "Super" yang Gak Dimiliki Temanmu.',
+                    'desc' => 'Belajar coding dan AI bikin kamu paham teknologi saat yang lain cuma bisa pakai doang. Keren, kan?',
+                    'img' => 'img/homepage/special-benefit.jpg',
+                ],
+                [
+                    'title' => 'Untuk yang Punya Cita-Cita Besar',
+                    'subtitle' => 'Apapun Cita-citamu, Coding Kuncinya!',
+                    'desc' => 'Gak pakai rumus pusing. Di sini kita belajar sambil seru-seruan bareng.',
+                    'img' => 'img/homepage/special-benefit.jpg',
+                ],
+            ];
+        @endphp
 
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            @for($i=1; $i<=4; $i++)
+            @foreach($benefits as $b)
                 <div class="bg-white p-5 rounded-2xl shadow hover:shadow-lg transition">
-                    <img src="{{ asset('img/homepage/special-benefit.jpg') }}"
-                         alt="Benefit"
-                         class="w-full h-36 object-cover rounded-xl mb-4">
-                    <h3 class="font-bold text-base sm:text-lg mb-2">Judul Benefit {{ $i }}</h3>
-                    <p class="text-gray-600 text-sm leading-relaxed">
-                        Deskripsi singkat benefit untuk terlihat profesional dan mudah dipahami.
+                    <img src="{{ asset($b['img']) }}"
+                        alt="{{ $b['title'] }}"
+                        class="w-full h-36 object-cover rounded-xl mb-4">
+
+                    <h3 class="font-extrabold text-base sm:text-lg text-gray-900">
+                        {{ $b['title'] }}
+                    </h3>
+
+                    <p class="mt-1 text-sm font-semibold text-purple-700">
+                        {{ $b['subtitle'] }}
+                    </p>
+
+                    <p class="mt-2 text-gray-600 text-sm leading-relaxed">
+                        {{ $b['desc'] }}
                     </p>
                 </div>
-            @endfor
+            @endforeach
         </div>
     </section>
 
