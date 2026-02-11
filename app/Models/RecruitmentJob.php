@@ -81,13 +81,6 @@ class RecruitmentJob extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
-    // ===== ACCESSOR (URL cover) =====
-    public function getCoverImageUrlAttribute(): ?string
-    {
-        if (!$this->cover_image_path) return null;
-        return Storage::disk('public')->url($this->cover_image_path);
-    }
-
     // ===== HELPERS =====
     public function isOpen(): bool
     {
@@ -97,7 +90,14 @@ class RecruitmentJob extends Model
     public function getTorPdfUrlAttribute(): ?string
     {
         if (!$this->tor_pdf_path) return null;
-        return asset('storage/' . ltrim($this->tor_pdf_path, '/'));
+        return rtrim(config('filesystems.disks.public.url'), '/') . '/' . ltrim($this->tor_pdf_path, '/');
     }
+
+    public function getCoverImageUrlAttribute(): ?string
+    {
+        if (!$this->cover_image_path) return null;
+        return rtrim(config('filesystems.disks.public.url'), '/') . '/' . ltrim($this->cover_image_path, '/');
+    }
+
     
 }
