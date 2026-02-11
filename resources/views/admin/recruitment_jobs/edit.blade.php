@@ -1,5 +1,3 @@
-{{-- resources/views/admin/recruitment_jobs/edit.blade.php --}}
-
 <x-app-layout>
     <x-slot name="header">
         <div class="flex items-start justify-between gap-4">
@@ -76,8 +74,7 @@
                                        class="mt-1 w-full rounded-md border-gray-300 focus:ring-indigo-500 focus:border-indigo-500">
                                 <x-input-error class="mt-2" :messages="$errors->get('judul')" />
                                 <p class="mt-1 text-xs text-gray-600">
-                                    Slug otomatis:
-                                    <span class="font-semibold text-gray-900">{{ $job->slug }}</span>
+                                    Slug otomatis: <span class="font-semibold text-gray-900">{{ $job->slug }}</span>
                                 </p>
                             </div>
 
@@ -85,7 +82,7 @@
                                 <label class="block text-sm font-bold text-gray-900">Status</label>
                                 <select name="status" required class="mt-1 w-full rounded-md border-gray-300 focus:ring-indigo-500 focus:border-indigo-500">
                                     <option value="draft" @selected(old('status', $job->status) === 'draft')>Draft</option>
-                                    <option value="open" @selected(old('status', $job->status) === 'open')>Open</option>
+                                    <option value="open"  @selected(old('status', $job->status) === 'open')>Open</option>
                                     <option value="closed" @selected(old('status', $job->status) === 'closed')>Closed</option>
                                 </select>
                                 <x-input-error class="mt-2" :messages="$errors->get('status')" />
@@ -98,6 +95,41 @@
                             <textarea name="ringkasan" rows="3"
                                       class="mt-1 w-full rounded-md border-gray-300 focus:ring-indigo-500 focus:border-indigo-500">{{ old('ringkasan', $job->ringkasan) }}</textarea>
                             <x-input-error class="mt-2" :messages="$errors->get('ringkasan')" />
+                        </div>
+
+                        {{-- TOR PDF --}}
+                        <div>
+                            <label class="block text-sm font-bold text-gray-900">TOR PDF (dibaca di halaman publik)</label>
+
+                            @if(!empty($job->tor_pdf_url))
+                                <div class="mt-2 rounded-md border border-gray-200 bg-gray-50 p-3">
+                                    <div class="flex items-center justify-between gap-3">
+                                        <a href="{{ $job->tor_pdf_url }}" target="_blank"
+                                           class="text-sm font-semibold text-indigo-700 hover:underline">
+                                            Lihat TOR saat ini
+                                        </a>
+
+                                        <label class="inline-flex items-center gap-2 text-sm font-semibold text-gray-900">
+                                            <input type="checkbox" name="hapus_tor_pdf" value="1" class="rounded border-gray-300">
+                                            Hapus TOR
+                                        </label>
+                                    </div>
+
+                                    <p class="mt-2 text-xs text-gray-600">
+                                        File: <span class="font-semibold text-gray-900">{{ $job->tor_pdf_name ?? 'TOR.pdf' }}</span>
+                                        @if($job->tor_pdf_updated_at)
+                                            • Update: {{ optional($job->tor_pdf_updated_at)->format('d M Y H:i') }}
+                                        @endif
+                                    </p>
+                                </div>
+                            @else
+                                <p class="mt-2 text-sm text-gray-700 font-medium">Belum ada TOR.</p>
+                            @endif
+
+                            <input type="file" name="tor_pdf" accept="application/pdf"
+                                   class="mt-3 w-full rounded-md border border-gray-300 p-2">
+                            <p class="mt-1 text-xs text-gray-600">Upload baru akan mengganti TOR lama.</p>
+                            <x-input-error class="mt-2" :messages="$errors->get('tor_pdf')" />
                         </div>
 
                         {{-- COVER + TAG --}}
@@ -166,84 +198,6 @@
                             </div>
                         </div>
 
-                        {{-- DETAIL NARASI --}}
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <div>
-                                <label class="block text-sm font-bold text-gray-900">Deskripsi Role (narasi)</label>
-                                <textarea name="deskripsi_role" rows="6"
-                                          class="mt-1 w-full rounded-md border-gray-300 focus:ring-indigo-500 focus:border-indigo-500">{{ old('deskripsi_role', $job->deskripsi_role) }}</textarea>
-                                <x-input-error class="mt-2" :messages="$errors->get('deskripsi_role')" />
-                            </div>
-                            <div>
-                                <label class="block text-sm font-bold text-gray-900">Detail Jobdesk (narasi)</label>
-                                <textarea name="jobdesk_detail" rows="6"
-                                          class="mt-1 w-full rounded-md border-gray-300 focus:ring-indigo-500 focus:border-indigo-500">{{ old('jobdesk_detail', $job->jobdesk_detail) }}</textarea>
-                                <x-input-error class="mt-2" :messages="$errors->get('jobdesk_detail')" />
-                            </div>
-                        </div>
-
-                        <div>
-                            <label class="block text-sm font-bold text-gray-900">Detail Kualifikasi (narasi)</label>
-                            <textarea name="kualifikasi_detail" rows="6"
-                                      class="mt-1 w-full rounded-md border-gray-300 focus:ring-indigo-500 focus:border-indigo-500">{{ old('kualifikasi_detail', $job->kualifikasi_detail) }}</textarea>
-                            <x-input-error class="mt-2" :messages="$errors->get('kualifikasi_detail')" />
-                        </div>
-
-                        @php
-                            /**
-                             * Normalizer: array/json/string -> teks 1 baris 1 poin
-                             * - Prioritas: old()
-                             * - Jika DB string JSON -> decode
-                             * - Jika DB string biasa -> split per baris
-                             */
-                            $normalizeLines = function (string $oldKey, $value) {
-                                $oldVal = old($oldKey);
-                                if (!is_null($oldVal)) return $oldVal;
-
-                                $val = $value ?? [];
-
-                                if (is_string($val)) {
-                                    $decoded = json_decode($val, true);
-                                    if (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) {
-                                        $val = $decoded;
-                                    } else {
-                                        $val = preg_split("/\R/u", $val) ?: [];
-                                    }
-                                }
-
-                                return is_array($val) ? implode(PHP_EOL, $val) : (string) $val;
-                            };
-
-                            $respText = $normalizeLines('responsibilities', $job->responsibilities ?? []);
-                            $reqText  = $normalizeLines('requirements',      $job->requirements ?? []);
-                            $benText  = $normalizeLines('benefits',          $job->benefits ?? []);
-                            $dokText  = $normalizeLines('dokumen_diminta',   $job->dokumen_diminta ?? []);
-                        @endphp
-
-                        {{-- BULLET LIST --}}
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                            <div>
-                                <label class="block text-sm font-bold text-gray-900">Responsibilities (1 baris 1 poin)</label>
-                                <textarea name="responsibilities" rows="8"
-                                          class="mt-1 w-full rounded-md border-gray-300 focus:ring-indigo-500 focus:border-indigo-500">{{ $respText }}</textarea>
-                                <x-input-error class="mt-2" :messages="$errors->get('responsibilities')" />
-                            </div>
-
-                            <div>
-                                <label class="block text-sm font-bold text-gray-900">Requirements (1 baris 1 poin)</label>
-                                <textarea name="requirements" rows="8"
-                                          class="mt-1 w-full rounded-md border-gray-300 focus:ring-indigo-500 focus:border-indigo-500">{{ $reqText }}</textarea>
-                                <x-input-error class="mt-2" :messages="$errors->get('requirements')" />
-                            </div>
-
-                            <div>
-                                <label class="block text-sm font-bold text-gray-900">Benefits (1 baris 1 poin)</label>
-                                <textarea name="benefits" rows="8"
-                                          class="mt-1 w-full rounded-md border-gray-300 focus:ring-indigo-500 focus:border-indigo-500">{{ $benText }}</textarea>
-                                <x-input-error class="mt-2" :messages="$errors->get('benefits')" />
-                            </div>
-                        </div>
-
                         {{-- SALARY --}}
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                             <div>
@@ -290,7 +244,7 @@
                             <div>
                                 <label class="block text-sm font-bold text-gray-900">Dokumen Diminta (1 baris 1 item)</label>
                                 <textarea name="dokumen_diminta" rows="5"
-                                          class="mt-1 w-full rounded-md border-gray-300 focus:ring-indigo-500 focus:border-indigo-500">{{ $dokText }}</textarea>
+                                          class="mt-1 w-full rounded-md border-gray-300 focus:ring-indigo-500 focus:border-indigo-500">{{ old('dokumen_diminta', is_array($job->dokumen_diminta) ? implode(PHP_EOL, $job->dokumen_diminta) : ($job->dokumen_diminta ?? '')) }}</textarea>
                                 <x-input-error class="mt-2" :messages="$errors->get('dokumen_diminta')" />
                             </div>
                             <div>
@@ -323,7 +277,6 @@
                                 Batal
                             </a>
                         </div>
-
                     </form>
 
                     <div class="mt-8 border-t border-gray-200 pt-6">

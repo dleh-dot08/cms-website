@@ -122,17 +122,10 @@ class RecruitmentJobController extends Controller
             'work_type_id' => ['required','integer','exists:work_types,id'],
             'location_id' => ['required','integer','exists:locations,id'],
 
+            'tor_pdf' => ['nullable','file','mimes:pdf','max:10240'], // 10MB
+
             'judul' => ['required','string','max:255'],
             'ringkasan' => ['nullable','string'],
-
-            'deskripsi_role' => ['nullable','string'],
-            'jobdesk_detail' => ['nullable','string'],
-            'kualifikasi_detail' => ['nullable','string'],
-
-            // bisa textarea (string) atau array
-            'responsibilities' => ['nullable'],
-            'requirements' => ['nullable'],
-            'benefits' => ['nullable'],
 
             'salary_min' => ['nullable','integer','min:0'],
             'salary_max' => ['nullable','integer','min:0'],
@@ -161,9 +154,6 @@ class RecruitmentJobController extends Controller
         ]);
 
         $data['slug'] = $this->generateUniqueSlug($data['judul']);
-        $data['responsibilities'] = $this->parseLinesToArray($request->input('responsibilities'));
-        $data['requirements'] = $this->parseLinesToArray($request->input('requirements'));
-        $data['benefits'] = $this->parseLinesToArray($request->input('benefits'));
         $data['dokumen_diminta'] = $this->parseLinesToArray($request->input('dokumen_diminta'));
 
         $data['is_featured'] = (bool) $request->boolean('is_featured');
@@ -174,6 +164,10 @@ class RecruitmentJobController extends Controller
             $data['published_at'] = now();
         } else {
             $data['published_at'] = null;
+        }
+
+        if ($request->hasFile('tor_pdf')) {
+            $data['tor_pdf_path'] = $request->file('tor_pdf')->store('recruitment/tor', 'public');
         }
 
         // upload cover
@@ -220,13 +214,9 @@ class RecruitmentJobController extends Controller
             'judul' => ['required','string','max:255'],
             'ringkasan' => ['nullable','string'],
 
-            'deskripsi_role' => ['nullable','string'],
-            'jobdesk_detail' => ['nullable','string'],
-            'kualifikasi_detail' => ['nullable','string'],
-
-            'responsibilities' => ['nullable'],
-            'requirements' => ['nullable'],
-            'benefits' => ['nullable'],
+            // TOR
+            'tor_pdf' => ['nullable','file','mimes:pdf','max:10240'], // 10MB
+            'hapus_tor_pdf' => ['nullable','boolean'],
 
             'salary_min' => ['nullable','integer','min:0'],
             'salary_max' => ['nullable','integer','min:0'],
@@ -258,9 +248,6 @@ class RecruitmentJobController extends Controller
             $data['slug'] = $this->generateUniqueSlug($data['judul'], $job->id);
         }
 
-        $data['responsibilities'] = $this->parseLinesToArray($request->input('responsibilities'));
-        $data['requirements'] = $this->parseLinesToArray($request->input('requirements'));
-        $data['benefits'] = $this->parseLinesToArray($request->input('benefits'));
         $data['dokumen_diminta'] = $this->parseLinesToArray($request->input('dokumen_diminta'));
 
         $data['is_featured'] = (bool) $request->boolean('is_featured');
@@ -272,6 +259,20 @@ class RecruitmentJobController extends Controller
         }
         if ($data['status'] === 'draft') {
             $data['published_at'] = null;
+        }
+
+        // hapus TOR
+        if ($request->boolean('hapus_tor_pdf') && $job->tor_pdf_path) {
+            Storage::disk('public')->delete($job->tor_pdf_path);
+            $data['tor_pdf_path'] = null;
+        }
+
+        // upload TOR baru (replace)
+        if ($request->hasFile('tor_pdf')) {
+            if ($job->tor_pdf_path) {
+                Storage::disk('public')->delete($job->tor_pdf_path);
+            }
+            $data['tor_pdf_path'] = $request->file('tor_pdf')->store('recruitment/tor', 'public');
         }
 
         // hapus cover
@@ -289,7 +290,6 @@ class RecruitmentJobController extends Controller
         }
 
         $job->update($data);
-
         $job->tags()->sync($request->input('tag_ids', []));
 
         return redirect()->route('admin.recruitment_jobs.show', $job)
@@ -300,6 +300,10 @@ class RecruitmentJobController extends Controller
     {
         if ($job->cover_image_path) {
             Storage::disk('public')->delete($job->cover_image_path);
+        }
+
+        if ($job->tor_pdf_path) {
+            Storage::disk('public')->delete($job->tor_pdf_path);
         }
 
         $job->delete();

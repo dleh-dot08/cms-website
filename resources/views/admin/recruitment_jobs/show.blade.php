@@ -53,15 +53,15 @@
                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                                 <div>
                                     <div class="text-sm text-gray-700 font-medium">Divisi</div>
-                                    <div class="text-gray-900 font-semibold">{{ $job->division?->nama }}</div>
+                                    <div class="text-gray-900 font-semibold">{{ $job->division?->nama ?? '-' }}</div>
                                 </div>
                                 <div>
                                     <div class="text-sm text-gray-700 font-medium">Tipe Kerja</div>
-                                    <div class="text-gray-900 font-semibold">{{ $job->workType?->nama }}</div>
+                                    <div class="text-gray-900 font-semibold">{{ $job->workType?->nama ?? '-' }}</div>
                                 </div>
                                 <div>
                                     <div class="text-sm text-gray-700 font-medium">Lokasi</div>
-                                    <div class="text-gray-900 font-semibold">{{ $job->location?->nama }}</div>
+                                    <div class="text-gray-900 font-semibold">{{ $job->location?->nama ?? '-' }}</div>
                                 </div>
                                 <div>
                                     <div class="text-sm text-gray-700 font-medium">Status</div>
@@ -69,7 +69,9 @@
                                 </div>
                                 <div>
                                     <div class="text-sm text-gray-700 font-medium">Deadline</div>
-                                    <div class="text-gray-900 font-semibold">{{ $job->deadline_at ? $job->deadline_at->format('d M Y') : '-' }}</div>
+                                    <div class="text-gray-900 font-semibold">
+                                        {{ $job->deadline_at ? $job->deadline_at->format('d M Y') : '-' }}
+                                    </div>
                                 </div>
                                 <div>
                                     <div class="text-sm text-gray-700 font-medium">Featured</div>
@@ -100,72 +102,75 @@
                         </div>
                     @endif
 
-                    {{-- NARASI --}}
-                    <div class="border-t border-gray-200 pt-6 grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div>
-                            <h3 class="font-bold text-gray-900">Deskripsi Role</h3>
-                            <p class="mt-2 text-gray-800 font-medium whitespace-pre-line">{{ $job->deskripsi_role ?: '-' }}</p>
-                        </div>
-                        <div>
-                            <h3 class="font-bold text-gray-900">Detail Jobdesk</h3>
-                            <p class="mt-2 text-gray-800 font-medium whitespace-pre-line">{{ $job->jobdesk_detail ?: '-' }}</p>
-                        </div>
-                        <div class="md:col-span-2">
-                            <h3 class="font-bold text-gray-900">Detail Kualifikasi</h3>
-                            <p class="mt-2 text-gray-800 font-medium whitespace-pre-line">{{ $job->kualifikasi_detail ?: '-' }}</p>
-                        </div>
-                    </div>
+                    {{-- TOR --}}
+                    <div class="border-t border-gray-200 pt-6">
+                        <div class="flex items-start justify-between gap-4">
+                            <div>
+                                <h3 class="font-bold text-gray-900">TOR PDF</h3>
+                                <p class="mt-1 text-sm text-gray-700 font-medium">
+                                    Konten detail lowongan ditampilkan dari TOR.
+                                </p>
+                            </div>
 
-                    {{-- BULLETS --}}
-                    <div class="border-t border-gray-200 pt-6 grid grid-cols-1 md:grid-cols-3 gap-6">
-                        <div>
-                            <h3 class="font-bold text-gray-900">Responsibilities</h3>
-                            @php $items = $job->responsibilities ?? []; @endphp
-                            @if(count($items))
-                                <ul class="mt-2 list-disc list-inside text-gray-800 font-medium space-y-1">
-                                    @foreach($items as $it)
-                                        <li>{{ $it }}</li>
-                                    @endforeach
-                                </ul>
-                            @else
-                                <p class="mt-2 text-gray-700 font-medium">-</p>
+                            @if(!empty($job->tor_pdf_url))
+                                <a href="{{ $job->tor_pdf_url }}" target="_blank" rel="noopener"
+                                   class="px-4 py-2 rounded-md bg-gray-900 text-white text-sm font-semibold hover:bg-black">
+                                    Buka TOR
+                                </a>
                             @endif
                         </div>
 
-                        <div>
-                            <h3 class="font-bold text-gray-900">Requirements</h3>
-                            @php $items = $job->requirements ?? []; @endphp
-                            @if(count($items))
-                                <ul class="mt-2 list-disc list-inside text-gray-800 font-medium space-y-1">
-                                    @foreach($items as $it)
-                                        <li>{{ $it }}</li>
-                                    @endforeach
-                                </ul>
-                            @else
-                                <p class="mt-2 text-gray-700 font-medium">-</p>
-                            @endif
-                        </div>
+                        @if(!empty($job->tor_pdf_url))
+                            <div class="mt-4 rounded-lg border border-gray-200 bg-gray-50 p-4">
+                                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-sm">
+                                    <div>
+                                        <div class="text-gray-600 font-semibold">File</div>
+                                        <div class="text-gray-900 font-bold break-words">{{ $job->tor_pdf_name ?? 'TOR.pdf' }}</div>
+                                    </div>
+                                    <div>
+                                        <div class="text-gray-600 font-semibold">Terakhir Update</div>
+                                        <div class="text-gray-900 font-bold">
+                                            {{ $job->tor_pdf_updated_at ? $job->tor_pdf_updated_at->format('d M Y H:i') : '-' }}
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="text-gray-600 font-semibold">Path</div>
+                                        <div class="text-gray-900 font-bold break-words">{{ $job->tor_pdf_path ?? '-' }}</div>
+                                    </div>
+                                </div>
+                            </div>
 
-                        <div>
-                            <h3 class="font-bold text-gray-900">Benefits</h3>
-                            @php $items = $job->benefits ?? []; @endphp
-                            @if(count($items))
-                                <ul class="mt-2 list-disc list-inside text-gray-800 font-medium space-y-1">
-                                    @foreach($items as $it)
-                                        <li>{{ $it }}</li>
-                                    @endforeach
-                                </ul>
-                            @else
-                                <p class="mt-2 text-gray-700 font-medium">-</p>
-                            @endif
-                        </div>
+                            <div class="mt-4 rounded-2xl border border-gray-200 overflow-hidden">
+                                <div class="bg-white px-4 py-3 border-b border-gray-200">
+                                    <p class="text-sm font-semibold text-gray-800">Preview TOR (Read Only)</p>
+                                </div>
+
+                                <div class="w-full" style="height: 80vh;">
+                                    <iframe
+                                        src="{{ $job->tor_pdf_url }}#toolbar=0&navpanes=0&scrollbar=1&view=FitH"
+                                        class="w-full h-full"
+                                        style="border:0;"
+                                        loading="lazy"
+                                    ></iframe>
+                                </div>
+                            </div>
+                        @else
+                            <div class="mt-4 rounded-2xl border border-yellow-200 bg-yellow-50 p-4">
+                                <p class="text-sm font-semibold text-yellow-900">TOR belum tersedia untuk lowongan ini.</p>
+                                <p class="mt-1 text-sm text-yellow-900">
+                                    Silakan upload TOR dari halaman <a href="{{ route('admin.recruitment_jobs.edit', $job) }}" class="underline font-bold">Edit</a>.
+                                </p>
+                            </div>
+                        @endif
                     </div>
 
                     {{-- APPLY + SALARY + PIC --}}
                     <div class="border-t border-gray-200 pt-6 grid grid-cols-1 md:grid-cols-3 gap-6">
                         <div>
                             <h3 class="font-bold text-gray-900">Cara Melamar</h3>
-                            <p class="mt-2 text-gray-800 font-medium">Tipe: <span class="font-semibold">{{ strtoupper($job->apply_type) }}</span></p>
+                            <p class="mt-2 text-gray-800 font-medium">
+                                Tipe: <span class="font-semibold">{{ strtoupper($job->apply_type) }}</span>
+                            </p>
                             <p class="mt-1 text-gray-800 font-medium break-words">
                                 {{ $job->apply_value ?: '-' }}
                             </p>
@@ -192,7 +197,15 @@
                     {{-- DOKUMEN --}}
                     <div class="border-t border-gray-200 pt-6">
                         <h3 class="font-bold text-gray-900">Dokumen Diminta</h3>
-                        @php $docs = $job->dokumen_diminta ?? []; @endphp
+                        @php
+                            $docs = $job->dokumen_diminta ?? [];
+                            if (is_string($docs)) {
+                                $decoded = json_decode($docs, true);
+                                $docs = (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) ? $decoded : preg_split("/\R/u", $docs);
+                            }
+                            $docs = is_array($docs) ? array_values(array_filter(array_map('trim', $docs))) : [];
+                        @endphp
+
                         @if(count($docs))
                             <ul class="mt-2 list-disc list-inside text-gray-800 font-medium space-y-1">
                                 @foreach($docs as $d)

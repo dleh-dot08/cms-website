@@ -3,7 +3,9 @@
         <div class="flex items-start justify-between gap-4">
             <div>
                 <h2 class="font-semibold text-xl text-gray-900">Tambah Lowongan</h2>
-                <p class="mt-1 text-sm text-gray-700 font-medium">Isi data lowongan. Bullet list isi 1 baris per poin.</p>
+                <p class="mt-1 text-sm text-gray-700 font-medium">
+                    Isi data lowongan. Konten detail lowongan akan ditampilkan dari TOR PDF.
+                </p>
             </div>
             <a href="{{ route('admin.recruitment_jobs.index') }}"
                class="px-4 py-2 rounded-md bg-gray-200 text-gray-900 text-sm font-semibold hover:bg-gray-300">
@@ -16,14 +18,16 @@
         <div class="max-w-5xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white shadow sm:rounded-lg border border-gray-200">
                 <div class="p-6">
-                    <form method="POST" action="{{ route('admin.recruitment_jobs.store') }}" enctype="multipart/form-data" class="space-y-6">
+                    <form method="POST" action="{{ route('admin.recruitment_jobs.store') }}"
+                          enctype="multipart/form-data" class="space-y-6">
                         @csrf
 
                         {{-- MASTER FILTER --}}
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                             <div>
                                 <label class="block text-sm font-bold text-gray-900">Divisi</label>
-                                <select name="division_id" required class="mt-1 w-full rounded-md border-gray-300 focus:ring-indigo-500 focus:border-indigo-500">
+                                <select name="division_id" required
+                                        class="mt-1 w-full rounded-md border-gray-300 focus:ring-indigo-500 focus:border-indigo-500">
                                     <option value="">Pilih</option>
                                     @foreach($divisions as $d)
                                         <option value="{{ $d->id }}" @selected((string)old('division_id') === (string)$d->id)>{{ $d->nama }}</option>
@@ -34,7 +38,8 @@
 
                             <div>
                                 <label class="block text-sm font-bold text-gray-900">Tipe Kerja</label>
-                                <select name="work_type_id" required class="mt-1 w-full rounded-md border-gray-300 focus:ring-indigo-500 focus:border-indigo-500">
+                                <select name="work_type_id" required
+                                        class="mt-1 w-full rounded-md border-gray-300 focus:ring-indigo-500 focus:border-indigo-500">
                                     <option value="">Pilih</option>
                                     @foreach($workTypes as $wt)
                                         <option value="{{ $wt->id }}" @selected((string)old('work_type_id') === (string)$wt->id)>{{ $wt->nama }}</option>
@@ -45,7 +50,8 @@
 
                             <div>
                                 <label class="block text-sm font-bold text-gray-900">Lokasi</label>
-                                <select name="location_id" required class="mt-1 w-full rounded-md border-gray-300 focus:ring-indigo-500 focus:border-indigo-500">
+                                <select name="location_id" required
+                                        class="mt-1 w-full rounded-md border-gray-300 focus:ring-indigo-500 focus:border-indigo-500">
                                     <option value="">Pilih</option>
                                     @foreach($locations as $l)
                                         <option value="{{ $l->id }}" @selected((string)old('location_id') === (string)$l->id)>{{ $l->nama }}</option>
@@ -67,9 +73,10 @@
 
                             <div>
                                 <label class="block text-sm font-bold text-gray-900">Status</label>
-                                <select name="status" required class="mt-1 w-full rounded-md border-gray-300 focus:ring-indigo-500 focus:border-indigo-500">
+                                <select name="status" required
+                                        class="mt-1 w-full rounded-md border-gray-300 focus:ring-indigo-500 focus:border-indigo-500">
                                     <option value="draft" @selected(old('status','draft') === 'draft')>Draft</option>
-                                    <option value="open" @selected(old('status') === 'open')>Open</option>
+                                    <option value="open"  @selected(old('status') === 'open')>Open</option>
                                     <option value="closed" @selected(old('status') === 'closed')>Closed</option>
                                 </select>
                                 <x-input-error class="mt-2" :messages="$errors->get('status')" />
@@ -81,11 +88,20 @@
                             <label class="block text-sm font-bold text-gray-900">Ringkasan (1–2 kalimat)</label>
                             <textarea name="ringkasan" rows="3"
                                       class="mt-1 w-full rounded-md border-gray-300 focus:ring-indigo-500 focus:border-indigo-500"
-                                      placeholder="contoh: Mengajar Scratch untuk siswa SMP/SMA, fleksibel, remote/hybrid.">{{ old('ringkasan') }}</textarea>
+                                      placeholder="Ringkasan singkat untuk preview list.">{{ old('ringkasan') }}</textarea>
                             <x-input-error class="mt-2" :messages="$errors->get('ringkasan')" />
                         </div>
 
-                        {{-- COVER --}}
+                        {{-- TOR PDF --}}
+                        <div>
+                            <label class="block text-sm font-bold text-gray-900">TOR PDF (dibaca di halaman publik)</label>
+                            <input type="file" name="tor_pdf" accept="application/pdf"
+                                   class="mt-1 w-full rounded-md border border-gray-300 p-2">
+                            <p class="mt-1 text-xs text-gray-600">Format: PDF. Maks 10MB.</p>
+                            <x-input-error class="mt-2" :messages="$errors->get('tor_pdf')" />
+                        </div>
+
+                        {{-- COVER + TAG --}}
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
                                 <label class="block text-sm font-bold text-gray-900">Cover / Thumbnail (opsional)</label>
@@ -133,57 +149,6 @@
                             </div>
                         </div>
 
-                        {{-- DETAIL NARASI --}}
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <div>
-                                <label class="block text-sm font-bold text-gray-900">Deskripsi Role (narasi)</label>
-                                <textarea name="deskripsi_role" rows="6"
-                                          class="mt-1 w-full rounded-md border-gray-300 focus:ring-indigo-500 focus:border-indigo-500"
-                                          placeholder="Penjelasan umum tentang role ini...">{{ old('deskripsi_role') }}</textarea>
-                                <x-input-error class="mt-2" :messages="$errors->get('deskripsi_role')" />
-                            </div>
-                            <div>
-                                <label class="block text-sm font-bold text-gray-900">Detail Jobdesk (narasi)</label>
-                                <textarea name="jobdesk_detail" rows="6"
-                                          class="mt-1 w-full rounded-md border-gray-300 focus:ring-indigo-500 focus:border-indigo-500"
-                                          placeholder="Detail tambahan jobdesk, flow kerja, target, dll...">{{ old('jobdesk_detail') }}</textarea>
-                                <x-input-error class="mt-2" :messages="$errors->get('jobdesk_detail')" />
-                            </div>
-                        </div>
-
-                        <div>
-                            <label class="block text-sm font-bold text-gray-900">Detail Kualifikasi (narasi)</label>
-                            <textarea name="kualifikasi_detail" rows="6"
-                                      class="mt-1 w-full rounded-md border-gray-300 focus:ring-indigo-500 focus:border-indigo-500"
-                                      placeholder="Detail tambahan kualifikasi, pengalaman minimal, dll...">{{ old('kualifikasi_detail') }}</textarea>
-                            <x-input-error class="mt-2" :messages="$errors->get('kualifikasi_detail')" />
-                        </div>
-
-                        {{-- BULLET LIST --}}
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                            <div>
-                                <label class="block text-sm font-bold text-gray-900">Responsibilities (1 baris 1 poin)</label>
-                                <textarea name="responsibilities" rows="8"
-                                          class="mt-1 w-full rounded-md border-gray-300 focus:ring-indigo-500 focus:border-indigo-500"
-                                          placeholder="- Mengajar...\n- Membuat laporan...">{{ old('responsibilities') }}</textarea>
-                                <x-input-error class="mt-2" :messages="$errors->get('responsibilities')" />
-                            </div>
-                            <div>
-                                <label class="block text-sm font-bold text-gray-900">Requirements (1 baris 1 poin)</label>
-                                <textarea name="requirements" rows="8"
-                                          class="mt-1 w-full rounded-md border-gray-300 focus:ring-indigo-500 focus:border-indigo-500"
-                                          placeholder="- Minimal...\n- Berpengalaman...">{{ old('requirements') }}</textarea>
-                                <x-input-error class="mt-2" :messages="$errors->get('requirements')" />
-                            </div>
-                            <div>
-                                <label class="block text-sm font-bold text-gray-900">Benefits (1 baris 1 poin)</label>
-                                <textarea name="benefits" rows="8"
-                                          class="mt-1 w-full rounded-md border-gray-300 focus:ring-indigo-500 focus:border-indigo-500"
-                                          placeholder="- Fee...\n- Sertifikat...">{{ old('benefits') }}</textarea>
-                                <x-input-error class="mt-2" :messages="$errors->get('benefits')" />
-                            </div>
-                        </div>
-
                         {{-- SALARY --}}
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                             <div>
@@ -211,7 +176,8 @@
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                             <div>
                                 <label class="block text-sm font-bold text-gray-900">Cara Melamar</label>
-                                <select name="apply_type" class="mt-1 w-full rounded-md border-gray-300 focus:ring-indigo-500 focus:border-indigo-500">
+                                <select name="apply_type"
+                                        class="mt-1 w-full rounded-md border-gray-300 focus:ring-indigo-500 focus:border-indigo-500">
                                     @foreach(['link'=>'Link', 'email'=>'Email', 'whatsapp'=>'WhatsApp', 'ats'=>'ATS'] as $k => $v)
                                         <option value="{{ $k }}" @selected(old('apply_type','link') === $k)>{{ $v }}</option>
                                     @endforeach
@@ -222,7 +188,7 @@
                                 <label class="block text-sm font-bold text-gray-900">Alamat / Link Melamar</label>
                                 <input type="text" name="apply_value" value="{{ old('apply_value') }}"
                                        class="mt-1 w-full rounded-md border-gray-300 focus:ring-indigo-500 focus:border-indigo-500"
-                                       placeholder="contoh: https://forms.gle/... atau email@domain.com atau 62812xxxx">
+                                       placeholder="https://forms... / email@domain.com / 62812xxxx">
                                 <x-input-error class="mt-2" :messages="$errors->get('apply_value')" />
                             </div>
                         </div>
@@ -233,7 +199,7 @@
                                 <label class="block text-sm font-bold text-gray-900">Dokumen Diminta (1 baris 1 item)</label>
                                 <textarea name="dokumen_diminta" rows="5"
                                           class="mt-1 w-full rounded-md border-gray-300 focus:ring-indigo-500 focus:border-indigo-500"
-                                          placeholder="CV\nPortofolio\nSurat Lamaran">{{ old('dokumen_diminta') }}</textarea>
+                                          placeholder="CV&#10;Portofolio&#10;Surat Lamaran">{{ old('dokumen_diminta') }}</textarea>
                                 <x-input-error class="mt-2" :messages="$errors->get('dokumen_diminta')" />
                             </div>
                             <div>

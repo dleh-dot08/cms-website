@@ -19,13 +19,7 @@ class RecruitmentJob extends Model
         'slug',
         'ringkasan',
 
-        'deskripsi_role',
-        'jobdesk_detail',
-        'kualifikasi_detail',
-
-        'responsibilities',
-        'requirements',
-        'benefits',
+        'tor_pdf_path', 
 
         'salary_min',
         'salary_max',
@@ -50,9 +44,6 @@ class RecruitmentJob extends Model
     ];
 
     protected $casts = [
-        'responsibilities' => 'array',
-        'requirements' => 'array',
-        'benefits' => 'array',
         'dokumen_diminta' => 'array',
 
         'deadline_at' => 'date',
@@ -101,6 +92,12 @@ class RecruitmentJob extends Model
     public function isOpen(): bool
     {
         return $this->status === 'open';
+    }
+
+    public function getTorPdfUrlAttribute(): ?string
+    {
+        if (!$this->tor_pdf_path) return null;
+        return Storage::disk('public')->url($this->tor_pdf_path);
     }
     
 }
