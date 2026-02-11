@@ -97,7 +97,7 @@ class RecruitmentJob extends Model
     public function getTorPdfUrlAttribute(): ?string
     {
         if (!$this->tor_pdf_path) return null;
-        return Storage::disk('public')->url($this->tor_pdf_path);
+        return asset('storage/' . ltrim($this->tor_pdf_path, '/'));
     }
     
 }
